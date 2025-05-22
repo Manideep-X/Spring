@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface EmployeeRepoInterface extends JpaRepository<EmployeeEntity, Integer> {
-    // Now we can use JPA repository methods in Service layer.
+    // Now we can use JPA repository's methods in Service layer by implimenting this interface.
 }
