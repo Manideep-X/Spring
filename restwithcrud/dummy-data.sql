@@ -1,7 +1,7 @@
 USE `employee_tracker`;
 INSERT INTO `employee` VALUES 
-	(1,'Lillian','Paige','lillian.paige@gmail.com'),
-	(2,'Matt','Paterson','matt.paterson@gmail.com'),
-	(3,'Matt','Dickens','matt.dickens@gmail.com'),
-	(4,'Donna','Henderson','donna.henderson@gmail.com'),
-	(5,'Anna','MacLeod','anna.macleod@gmail.com');
+	(10,'Ruth','Bond','ruth.bond@gmail.com'),
+	(11,'Sally','Gill','sally.gill@gmail.com'),
+	(12,'Richard','Davidson','richard.davidson@gmail.com'),
+	(13,'Grace','Paige','grace.paige@gmail.com'),
+	(14,'Gordon','Hart','gordon.hart@gmail.com');
