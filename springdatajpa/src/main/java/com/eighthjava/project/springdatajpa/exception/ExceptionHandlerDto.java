@@ -10,6 +10,8 @@ import com.eighthjava.project.springdatajpa.model.HttpResponseEntity;
 @ControllerAdvice
 public class ExceptionHandlerDto {
 
+    // @ExceptionHandler(EmployeeNotFoundException.class)
+    //This is same as only the annotation @ExceptionHandler
     @ExceptionHandler
     public ResponseEntity<HttpResponseEntity> handleNotFound(EmployeeNotFoundException ex) {
 
@@ -18,6 +20,8 @@ public class ExceptionHandlerDto {
 
     }
 
+    // @ExceptionHandler(DuplicationFoundException.class)
+    //This is same as only the annotation @ExceptionHandler
     @ExceptionHandler
     public ResponseEntity<HttpResponseEntity> handleDuplication(DuplicationFoundException ex) {
 
@@ -26,6 +30,8 @@ public class ExceptionHandlerDto {
 
     }
 
+    // @ExceptionHandler({InvalidRequestException.class, Exception.class})
+    // Can map multiple exception class to a single method like this
     @ExceptionHandler
     public ResponseEntity<HttpResponseEntity> handleInvalidRequest(InvalidRequestException ex) {
 
