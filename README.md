@@ -772,6 +772,43 @@
             (Web only) | One bean instance per websocket connection (real-time communication) | Chat applications. | `@Scope(WebApplicationContext.SCOPE_WEBSOCKET)`
             or
             `@Scope(”websocket”)` |
+            - **Difference between `@Component`, `@Bean`, and `@Configuration`, `@Bean` in case of Singletone scope of the bean (For understanding purposes)** ⤵️
+                - Using `@Component` & `@Bean` will not ensure singleton preservation fully but using `@Configuration` and `@Bean` does. (Using `@Bean` inside the component class is **NOT recommended**).
+                
+                **Example**:
+                
+                ```java
+                @Component
+                public class AppConfig {
+                
+                    @Bean
+                    public Foo foo() {
+                        return new Foo(); // NOT intercepted by Spring when called internally
+                    }
+                
+                    @Bean
+                    public Bar bar() {
+                        return new Bar(foo()); // this creates a NEW Foo instance!
+                    }
+                }
+                ```
+                
+                ```java
+                @Configuration
+                public class AppConfig {
+                
+                    @Bean
+                    public Foo foo() {
+                        return new Foo(); // managed by Spring, singleton by default
+                    }
+                
+                    @Bean
+                    public Bar bar() {
+                        return new Bar(foo()); // this foo() call is intercepted and goes through Spring
+                    }
+                }
+                ```
+                
         4. Bean Lifecycle: The full journey of a bean — from creation to destruction — inside the Spring container.
         5. **Bean lifecycle phases** as:
             1. Instantiation: Spring creates an object of the class (using constructor).
@@ -1047,8 +1084,10 @@
     
     ---
     
-    - **Spring Boot REST API Security**
-        1. 
+    - **Spring Boot REST API Security [(Spring Security official doc)](https://docs.spring.io/spring-security/reference/index.html)**
+        1. By adding **Spring Security dependency**, the endpoints will get secured with a **default** username(user) and password(gets generated in the console).
+        2. The default username and password can be overridden by adding `spring.security.user.name=abc` and `spring.security.user.password=xyz` in the properties file.
+        3. 
     
     ---
     
