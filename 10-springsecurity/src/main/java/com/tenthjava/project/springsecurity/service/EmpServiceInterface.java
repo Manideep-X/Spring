@@ -17,6 +17,6 @@ public interface EmpServiceInterface {
 
     EmployeeEntity partialUpdateById(int id, Map<String, Object> patch);
     
-    EmployeeEntity deleteById(Integer id);
+    EmployeeEntity deleteById(int id);
 
 }
