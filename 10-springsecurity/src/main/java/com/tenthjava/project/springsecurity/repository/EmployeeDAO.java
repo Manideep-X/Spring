@@ -3,47 +3,42 @@ package com.tenthjava.project.springsecurity.repository;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.tenthjava.project.springsecurity.model.EmployeeEntity;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 
 @Repository
 public class EmployeeDAO implements EmployeeInterfaceDAO {
 
-    @Transactional
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Override
     public void create(EmployeeEntity employeeEntity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        entityManager.persist(employeeEntity);
     }
     
-    @Transactional(readOnly = true)
     @Override
     public EmployeeEntity readById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readById'");
+        return entityManager.find(EmployeeEntity.class, id);
     }
     
-    @Transactional(readOnly = true)
     @Override
     public List<EmployeeEntity> readAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readAll'");
+        return entityManager.createQuery("FROM EmployeeEntity", EmployeeEntity.class).getResultList();
     }
     
-    @Transactional
     @Override
     public EmployeeEntity updateById(EmployeeEntity employeeEntity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateById'");
+        return entityManager.merge(employeeEntity);
     }
     
-    @Transactional
     @Override
-    public void deleteById(int id, EmployeeEntity employeeEntity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+    public void deleteById(EmployeeEntity employeeEntity) {
+        entityManager.remove(employeeEntity);
     }
 
 }

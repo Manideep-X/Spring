@@ -14,6 +14,6 @@ public interface EmployeeInterfaceDAO {
 
     EmployeeEntity updateById(EmployeeEntity employeeEntity);
 
-    void deleteById(int id, EmployeeEntity employeeEntity);
+    void deleteById(EmployeeEntity employeeEntity);
 
 }
