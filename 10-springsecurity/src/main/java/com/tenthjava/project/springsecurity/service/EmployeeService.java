@@ -25,7 +25,9 @@ public class EmployeeService implements EmpServiceInterface {
     @Transactional
     @Override
     public EmployeeEntity save(EmployeeEntity employeeEntity) {
-        findById(employeeEntity.getId());
+        if (employeeEntity.getId() != null) {
+            throw new RuntimeException("BAD request format. Check again");
+        }
         employeeDAO.create(employeeEntity);
         return employeeEntity;
     }
