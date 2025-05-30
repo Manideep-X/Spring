@@ -2,6 +2,7 @@ package com.tenthjava.project.springsecurity.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +51,11 @@ public class EmployeeRest {
     @PatchMapping("/employees/{employeeId}")
     public EmployeeEntity patchUpdateById(@PathVariable("employeeId") int id, @RequestBody Map<String, Object> patch) {
         return employeeService.partialUpdateById(id, patch);
+    }
+
+    @DeleteMapping("/employees/{employeeId}")
+    public EmployeeEntity deleteById(@PathVariable("employeeId") int id) {
+        return employeeService.deleteById(id);
     }
 
 }
