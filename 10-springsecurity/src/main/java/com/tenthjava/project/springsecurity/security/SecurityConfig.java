@@ -1,44 +1,55 @@
 package com.tenthjava.project.springsecurity.security;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+// import org.springframework.security.core.userdetails.User;
+// import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+    // @Bean
+    // InMemoryUserDetailsManager inMemoryUserDetailsManager() {
 
-        // Creating user John(Employee), Mary(Manager), Susan(Manager,Admin)
+    //     // Creating user John(Employee), Mary(Manager), Susan(Manager,Admin)
 
-        // Since there are users in the security configuration class (this class) the username and password from the properties file will NOT be considered.
+    //     // Since there are users in the security configuration class (this class) the username and password from the properties file will NOT be considered.
 
-        UserDetails john = User.builder()
-                            .username("john")
-                            .password("{noop}123")
-                            .roles("EMPLOYEE")
-                            .build();
+    //     UserDetails john = User.builder()
+    //                         .username("john")
+    //                         .password("{noop}123")
+    //                         .roles("EMPLOYEE")
+    //                         .build();
 
-        UserDetails mary = User.builder()
-                            .username("mary")
-                            .password("{noop}123")
-                            .roles("EMPLOYEE", "MANAGER")
-                            .build();
+    //     UserDetails mary = User.builder()
+    //                         .username("mary")
+    //                         .password("{noop}123")
+    //                         .roles("EMPLOYEE", "MANAGER")
+    //                         .build();
 
-        UserDetails susan = User.builder()
-                            .username("susan")
-                            .password("{noop}123")
-                            .roles("EMPLOYEE", "MANAGER", "ADMIN")
-                            .build();
+    //     UserDetails susan = User.builder()
+    //                         .username("susan")
+    //                         .password("{noop}123")
+    //                         .roles("EMPLOYEE", "MANAGER", "ADMIN")
+    //                         .build();
 
-        return new InMemoryUserDetailsManager(john, mary, susan);
+    //     return new InMemoryUserDetailsManager(john, mary, susan);
+    // }
+
+    @Bean // This method is use if the users and authorities(roles) are in the DB.
+    UserDetailsManager userDetailsManager(DataSource dataSource) { // Injects Data source auto-configured by Spring Boot.
+
+        return new JdbcUserDetailsManager(dataSource); // Tells Spring security to use JDBC authentication.
+
     }
 
 
