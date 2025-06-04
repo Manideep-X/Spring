@@ -48,7 +48,13 @@ public class SecurityConfig {
     @Bean // This method is use if the users and authorities(roles) are in the DB.
     UserDetailsManager userDetailsManager(DataSource dataSource) { // Injects Data source auto-configured by Spring Boot.
 
-        return new JdbcUserDetailsManager(dataSource); // Tells Spring security to use JDBC authentication.
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource); // Tells Spring security to use JDBC authentication.
+
+        jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT name, pass, active FROM members WHERE name = ?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT user_name, user_role FROM roles WHERE user_name = ?");
+        // "?" is parameter placeholder. The value will be the username from login. 
+
+        return jdbcUserDetailsManager;
 
     }
 

@@ -581,10 +581,20 @@
 <aside>
 <img src="https://www.notion.so/icons/document_green.svg" alt="https://www.notion.so/icons/document_green.svg" width="40px" />
 
-### **Official Java Documentation** (Collection Framework)
+### **Official Java Documentation**
 
-[https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/doc-files/coll-overview.html](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/doc-files/coll-overview.html)
-
+- **Collection Framework**
+    
+    [https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/doc-files/coll-overview.html](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/doc-files/coll-overview.html)
+    
+- **Spring Framework**
+    
+    [https://docs.spring.io/spring-framework/reference/index.html](https://docs.spring.io/spring-framework/reference/index.html)
+    
+- **Spring Security**
+    
+    [https://docs.spring.io/spring-security/reference/index.html](https://docs.spring.io/spring-security/reference/index.html)
+    
 </aside>
 
 <aside>
@@ -1087,7 +1097,20 @@
     - **Spring Boot REST API Security [(Spring Security official doc)](https://docs.spring.io/spring-security/reference/index.html)**
         1. By adding **Spring Security dependency**, the endpoints will get secured with a **default** username(user) and password(gets generated in the console).
         2. The default username and password can be overridden by adding `spring.security.user.name=abc` and `spring.security.user.password=xyz` in the properties file.
-        3. 
+        3. `InMemoryUserDetailsManager` is an implimentation of `UserDetailsManager` that keep all the user information about usernames, passwords, roles in the **memory** during the application lifetime. **(NOT used for production. In production `UserDetailsService` is used).**
+        4. **After mentioning users** in the security configuration class, the username and password from the properties file will **NOT** be considered.
+        5. **CSRF(Cross-Site Request Forgery) attack** took advantage of how browser handles token automatically:
+            1. A **malicious site** sends a request on the user’s behalf to another site where the user is **logged in**.
+            2. The request will be send without the consent of the user.
+            3. The request will be treated as if you made it because the browser adds session cookie automatically.
+        6. **Spring Security** by default uses **CSRF token mechanism**:
+            1. When loding the form page it sends a **unique and random** token stored in the session.
+            2. The token needs to be **manually included** with any request that changes data.
+            3. Malicious site can’t know the token as it is **stored in the server-side session**.
+        7. CSRF protection is **disable in case of REST API** as no session stored on the server (**stateless**).
+        8. **BCrypt in** Spring Boot:
+            1. It adds **salt** to the password. **Salt** is a random value added to each password before hashing.
+            2. Then is repeatedly hashes the **combination(password+salt)**. The number of hashes are 2^10=**1024 times(default)**.
     
     ---
     
