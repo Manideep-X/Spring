@@ -3,6 +3,7 @@ package com.eleventh.project.springthymeleaf.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,12 +28,13 @@ public class BasicController {
     }
     
     @RequestMapping("/processFormTwo")
-    public String requestProcessForm2(HttpServletRequest request, Model model) {
-        // HttpServletRequest holds form data
+    public String requestProcessForm2(@RequestParam("studentEmail") String email ,HttpServletRequest request, Model model) {
+        // @RequestParam is use to bind a form parameter to a variable.
+        // HttpServletRequest holds form data.
         model.addAttribute("currDate", java.time.LocalDateTime.now());
 
         String msg = "Welcome "+request.getParameter("studentName")+" to Spring MVC";
-        model.addAttribute("message", msg.toUpperCase());
+        model.addAttribute("message", msg.toUpperCase()+" Email: "+email);
 
         return "response-two-form";
     }
