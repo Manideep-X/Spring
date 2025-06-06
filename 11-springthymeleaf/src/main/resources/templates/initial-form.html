@@ -9,7 +9,18 @@
 <body>
     
     <p th:text="'Time on the server is ' + ${currDate}" class="para" />
+
+    <h3 class="heading">Initial Form</h3>
     <form th:action="@{/processForm}" method="get">
+
+        <input type="text" name="studentName" placeholder="Full name" />
+
+        <input type="submit" />
+
+    </form>
+
+    <h3 class="heading">All Capital Form</h3>
+    <form th:action="@{/processFormTwo}" method="get">
 
         <input type="text" name="studentName" placeholder="Full name" />
 
