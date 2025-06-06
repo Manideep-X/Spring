@@ -4,8 +4,23 @@ body {
     font-weight: bold;
     color: white;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
 .para {
     display: block;
-    text-align: center;
+}
+form {
+    background-color: rgba(255, 255, 255, 0.356);
+    border-radius: 5px;
+    padding: 10px;
+    width: 60%;
+    margin: 0 auto;
+}
+.heading {
+    margin: 20px 0px 0px 0px;
+}
+input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
 }

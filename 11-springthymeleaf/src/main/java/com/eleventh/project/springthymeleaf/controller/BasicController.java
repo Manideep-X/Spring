@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 
 
 @Controller
@@ -12,6 +14,7 @@ public class BasicController {
     // This method is to show the HTML form
     @RequestMapping("/show")
     public String requestShow(Model model) {
+        // Model passes data from controller to view(Thymeleaf) in a key-value pair.
         model.addAttribute("currDate", java.time.LocalDateTime.now());
         return "initial-form";
     }
@@ -23,5 +26,15 @@ public class BasicController {
         return "response-form";
     }
     
+    @RequestMapping("/processFormTwo")
+    public String requestProcessForm2(HttpServletRequest request, Model model) {
+        // HttpServletRequest holds form data
+        model.addAttribute("currDate", java.time.LocalDateTime.now());
+
+        String msg = "Welcome "+request.getParameter("studentName")+" to Spring MVC";
+        model.addAttribute("message", msg.toUpperCase());
+
+        return "response-two-form";
+    }
 
 }
