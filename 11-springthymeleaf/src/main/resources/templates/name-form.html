@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Name</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+    
+    <p th:text="'Time on the server is ' + ${currDate}" class="para" />
+
+    <!-- --------------- -->
+     <!-- This is when an object is used for representing all fields of a form -->
+    <!-- --------------- -->
+
+    <h3 class="heading">Enter Your Name</h3>
+    <form th:action="@{/name}" th:object="${student}" method="post">
+
+        <input type="text" th:field="${student.firstName}" placeholder="First Name" />
+        <!-- <input type="text" th:field="*{firstName}" placeholder="Last Name" /> -->
+        <!-- Both of the above are same -->
+        
+        <input type="text" th:field="*{lastName}" placeholder="First Name" />
+        <!-- <input type="text" th:field="${student.lastName}" placeholder="Last Name" /> -->
+        <!-- Both of the above are same -->
+
+        <input type="submit" />
+
+    </form>
+
+</body>
+</html>
