@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Name</title>
+    <title>Student Form</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
@@ -14,7 +14,7 @@
      <!-- This is when an object is used for representing all fields of a form -->
     <!-- --------------- -->
 
-    <h3 class="heading">Enter Your Name</h3>
+    <h3 class="heading">Enter Your Info</h3>
     <form th:action="@{/name}" th:object="${student}" method="post">
 
         <input type="text" th:field="${student.firstName}" placeholder="First Name" />
@@ -24,6 +24,28 @@
         <input type="text" th:field="*{lastName}" placeholder="First Name" />
         <!-- <input type="text" th:field="${student.lastName}" placeholder="Last Name" /> -->
         <!-- Both of the above are same -->
+
+        <select th:field="*{country}">
+
+            <option th:value="none" selected hidden >Select a Country</option>
+            <!-- <option th:value="Brazil">Brazil</option>
+            <option th:value="France">France</option>
+            <option th:value="Germany">Germany</option>
+            <option th:value="India">India</option>
+            <option th:value="USA">USA</option> -->
+            <!-- Instead of doing the above, below one is preferred -->
+
+            <option th:each="eachCountry : ${countries}" th:value="${eachCountry}" th:text="${eachCountry}"></option>
+
+        </select>
+
+        <div class="option">
+            <input type="radio" th:each="eachGender : ${genders}" th:field="*{gender}" th:value="${eachGender}" th:text="${eachGender}" class="radio">
+        </div>
+
+        <div class="option">
+            <input type="checkbox" th:each="eachStack : ${techStacks}" th:field="*{techStack}" th:value="${eachStack}" th:text="${eachStack}" >
+        </div>
 
         <input type="submit" />
 

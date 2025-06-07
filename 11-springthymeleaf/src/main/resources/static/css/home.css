@@ -21,6 +21,21 @@ form {
 }
 input {
     display: block;
+    width: 30%;
     margin: 10px auto;
     padding: 10px 20px;
+}
+select {
+    padding: 10px 20px;
+}
+.option{
+    background-color: #1f1f1f7e;
+    display: flex;
+    padding: 10px 20px;
+    border-radius: 5px;
+    align-items: center;
+    margin: 10px auto;
+    width: 30%;
+    font-size: small;
+    font-weight: normal;
 }
