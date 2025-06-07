@@ -1094,7 +1094,7 @@
     
     ---
     
-    - **Spring Boot REST API Security [(Spring Security official doc)](https://docs.spring.io/spring-security/reference/index.html)**
+    - **Spring Boot REST API Security** [(Spring Security official doc)](https://docs.spring.io/spring-security/reference/index.html)
         1. By adding **Spring Security dependency**, the endpoints will get secured with a **default** username(user) and password(gets generated in the console).
         2. The default username and password can be overridden by adding `spring.security.user.name=abc` and `spring.security.user.password=xyz` in the properties file.
         3. `InMemoryUserDetailsManager` is an implimentation of `UserDetailsManager` that keep all the user information about usernames, passwords, roles in the **memory** during the application lifetime. **(NOT used for production. In production `UserDetailsService` is used).**
@@ -1111,6 +1111,97 @@
         8. **BCrypt in** Spring Boot:
             1. It adds **salt** to the password. **Salt** is a random value added to each password before hashing.
             2. Then is repeatedly hashes the **combination(password+salt)**. The number of hashes are 2^10=**1024 times(default)**.
+    
+    ---
+    
+    - **Spring MVC with Thymeleaf** [(Thymeleaf offical doc)](https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html)
+        1. **Thymeleaf** is a modern server-side Java **template engine** for web. It allows to bind data from Spring backend directly to the HTML.
+        2. To see the **Request method** and **Request body** in the developers tool:
+            
+            **Developers Tool → Network Tab → Headers Section**(For request method & more) **↔ Payload Section**(For request body)
+            
+        3. Validation annotations for **Spring Bean Validation API:** (For more annotations click [here(gfg)](https://www.geeksforgeeks.org/spring-bean-validation-jsr-303-annotations/) or [here(baeldung)](https://www.baeldung.com/spring-boot-bean-validation))
+            
+            
+            | **Annotations** | **Description** |
+            | --- | --- |
+            | `@NotNull` | Check if the annotated value is null |
+            | `@Min` | Number must be ≥ value |
+            | `@Max` | Number must be ≤ value |
+            | `@Size` | Size must match the given size |
+            | `@Pattern` | Must match a regular expression pattern |
+            | `@Future`/ `@Past`  | Date must be future/past of given date |
+            - Practical implimentations of majorly used validation annotations in Entity/DTO(Model) class: ⤵️
+                
+                ```java
+                import jakarta.validation.constraints.*;
+                import java.time.LocalDate;
+                import java.util.List;
+                
+                public class UserDTO {
+                
+                    @NotNull(message = "Id is required")
+                    private Long id;
+                
+                    @NotBlank(message = "Name must not be blank")
+                    @Size(min = 3, max = 20, message = "Name must be between 3 and 20 characters")
+                    private String name;
+                
+                    @Email(message = "Invalid email format")
+                    @NotEmpty(message = "Email must not be empty")
+                    private String email;
+                
+                    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
+                    private String phone;
+                
+                    @Min(value = 18, message = "Age must be at least 18")
+                    @Max(value = 60, message = "Age must be no more than 60")
+                    private Integer age;
+                
+                    @AssertTrue(message = "Terms must be accepted")
+                    private Boolean acceptedTerms;
+                
+                    @Past(message = "Date of birth must be in the past")
+                    private LocalDate dob;
+                
+                    @Future(message = "Subscription end date must be in the future")
+                    private LocalDate subscriptionEndDate;
+                
+                    @NotNull
+                    @Size(min = 1, message = "At least one role must be specified")
+                    private List<@NotBlank String> roles;
+                
+                    @Digits(integer = 5, fraction = 2, message = "Balance must be a number with up to 5 digits and 2 decimal places")
+                    private Double balance;
+                
+                    @Positive(message = "Score must be a positive number")
+                    private Integer score;
+                
+                    @PositiveOrZero(message = "Discount must be zero or positive")
+                    private Double discount;
+                
+                    @Negative(message = "Loss must be a negative value")
+                    private Double loss;
+                
+                    @NegativeOrZero(message = "Debt must be zero or less")
+                    private Double debt;
+                    
+                    @Size(min = 8, message = "Password must be at least 8 characters")
+                    private String password;
+                
+                    // Getters and Setters
+                }
+                ```
+                
+        4. Difference between `@NotNull`, `@NotEmpty`, `@NotBlank` :
+            
+            
+            | Annotation | Disallows `null` | Disallows `""` | Disallows `" "` | Disallows empty Collections |
+            | --- | --- | --- | --- | --- |
+            | `@NotNull` | ✅ Yes | ❌ No | ❌ No | ❌ No |
+            | `@NotEmpty` | ✅ Yes | ✅ Yes | ❌ No | ✅ Yes |
+            | `@NotBlank` | ✅ Yes | ✅ Yes | ✅ Yes | ❌ N/A (only Strings) |
+        5. 
     
     ---
     
