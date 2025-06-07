@@ -3,6 +3,7 @@ package com.eleventh.project.springthymeleaf.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,13 +22,13 @@ public class BasicController {
     }
     
     // This method is to process the HTML form
-    @RequestMapping("/processForm")
+    @RequestMapping(path="/processForm", method=RequestMethod.GET) // same as @GetMapping
     public String requestProcessForm(Model model) {
         model.addAttribute("currDate", java.time.LocalDateTime.now());
         return "response-form";
     }
     
-    @RequestMapping("/processFormTwo")
+    @RequestMapping(path="/processFormTwo", method=RequestMethod.GET) // same as @GetMapping
     public String requestProcessForm2(@RequestParam("studentEmail") String email ,HttpServletRequest request, Model model) {
         // @RequestParam is use to bind a form parameter to a variable.
         // HttpServletRequest holds form data.
