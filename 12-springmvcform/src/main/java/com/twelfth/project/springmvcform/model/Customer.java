@@ -3,6 +3,8 @@ package com.twelfth.project.springmvcform.model;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 // Customer DTO
 public class Customer {
@@ -15,16 +17,23 @@ public class Customer {
 
     @Min(value = 1, message = "Must be greater than zero")
     @Max(value = 10, message = "Must be less than or equal to ten")
-    private int noOfGuest;
+    @NotNull(message = "No. of guests is required")
+    private Integer noOfGuest;
+
+    @Pattern(regexp="^[1-9][0-9]{5}$", message = "Must be 6 digit no., first digit can\'t be 0")
+    @NotBlank(message = "Postal code is required")
+    private String postalCode;
 
     public Customer() {
     }
     public Customer(@NotBlank(message = "First name is required") String firstName,
             @NotBlank(message = "Last name is required") String lastName,
-            @Min(value = 1, message = "Must be greater than zero") @Max(value = 10, message = "Must be less than or equal to ten") int noOfGuest) {
+            @Min(value = 1, message = "Must be greater than zero") @Max(value = 10, message = "Must be less than or equal to ten") @NotNull(message = "No. of guests is required") Integer noOfGuest,
+            @Pattern(regexp = "^[1-9][0-9]{5}$", message = "Must be 6 digit no., first digit can't be 0") @NotBlank(message = "Postal code is required") String postalCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.noOfGuest = noOfGuest;
+        this.postalCode = postalCode;
     }
 
     public String getFirstName() {
@@ -40,12 +49,19 @@ public class Customer {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
-    public int getNoOfGuest() {
+
+    public Integer getNoOfGuest() {
         return noOfGuest;
     }
-    public void setNoOfGuest(int noOfGuest) {
+    public void setNoOfGuest(Integer noOfGuest) {
         this.noOfGuest = noOfGuest;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
 }

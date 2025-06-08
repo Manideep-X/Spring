@@ -25,9 +25,16 @@
             </div>
         </div>
         <div class="row">
+            <label>Postal code </label>
+            <div class="rowpart">
+                <input type="text" th:field="*{postalCode}" placeholder="6 digit no.">
+                <span th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}" class="error"></span>
+            </div>
+        </div>
+        <div class="row">
             <label>No. of guests </label>
             <div class="rowpart">
-                <input type="number" th:field="*{noOfGuest}" placeholder="Maximum no. is 10">
+                <input type="number" th:field="*{noOfGuest}">
                 <span th:if="${#fields.hasErrors('noOfGuest')}" th:errors="*{noOfGuest}" class="error"></span>
             </div>
         </div>
