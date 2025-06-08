@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Form</title>
+    <link rel="stylesheet" th:href="@{/css/customer-form.css}">
+</head>
+
+<body>
+
+    <h1 id="heading">Customer Form Submission</h1>
+    <form th:action="@{/process-form}" method="post" th:object="${customer}">
+
+        <div class="row">
+            <label>Name </label>
+            <div class="rowpart">
+                <input type="text" th:field="*{firstName}" placeholder="First Name">
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></span>
+            </div>
+            <div class="rowpart">
+                <input type="text" th:field="*{lastName}" placeholder="Last Name">
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error"></span>
+            </div>
+        </div>
+        <div class="row">
+            <label>No. of guests </label>
+            <div class="rowpart">
+                <input type="number" th:field="*{noOfGuest}" placeholder="Maximum no. is 10">
+                <span th:if="${#fields.hasErrors('noOfGuest')}" th:errors="*{noOfGuest}" class="error"></span>
+            </div>
+        </div>
+        <input type="submit" value="Submit" id="submit">
+
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Form</title>
+    <link rel="stylesheet" th:href="@{/css/customer-form.css}">
+</head>
+
+<body>
+
+    <h1>Customer Submitted Form Details</h1>
+    <div class="row2">
+        <h3>First Name: </h3><span th:text="${customer.firstName}"></span>
+    </div>
+    <div class="row2">
+        <h3>Last Name: </h3><span th:text="${customer.lastName}"></span>
+    </div>
+    <div class="row2">
+        <h3>No. of guests: </h3><span th:text="${customer.noOfGuest}"></span>
+    </div>
+
+</body>
+
+</html>
