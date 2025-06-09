@@ -38,6 +38,13 @@
                 <span th:if="${#fields.hasErrors('noOfGuest')}" th:errors="*{noOfGuest}" class="error"></span>
             </div>
         </div>
+        <div class="row">
+            <label>Employee ID no. </label>
+            <div class="rowpart">
+                <input type="text" th:field="*{empID}">
+                <span th:if="${#fields.hasErrors('empID')}" th:errors="*{empID}" class="error"></span>
+            </div>
+        </div>
         <input type="submit" value="Submit" id="submit">
 
     </form>

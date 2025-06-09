@@ -40,6 +40,10 @@ public class CustomerController {
                                   // using BindingResult
     public String postForm(@Valid @ModelAttribute("customer") Customer theCustomer, BindingResult bindingResult) {
 
+        System.out.println("\n\n\nBinding Result: "+bindingResult+"\n\n");
+        // What type of error is occured during validation can be seen in the console by printing binding result
+        // That error codes can be overriden using custom message in the messages.properties file inside resources folder
+
         if (bindingResult.hasErrors()) {
             return "customer-form";
         }
