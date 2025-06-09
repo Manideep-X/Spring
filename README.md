@@ -1196,12 +1196,16 @@
         4. Difference between `@NotNull`, `@NotEmpty`, `@NotBlank` :
             
             
-            | Annotation | Disallows `null` | Disallows `""` | Disallows `" "` | Disallows empty Collections |
-            | --- | --- | --- | --- | --- |
-            | `@NotNull` | ✅ Yes | ❌ No | ❌ No | ❌ No |
-            | `@NotEmpty` | ✅ Yes | ✅ Yes | ❌ No | ✅ Yes |
-            | `@NotBlank` | ✅ Yes | ✅ Yes | ✅ Yes | ❌ N/A (only Strings) |
-        5. 
+            | Annotation | Disallows `null` | Disallows `""` | Disallows `" "` | Disallows empty Collections | Use Case |
+            | --- | --- | --- | --- | --- | --- |
+            | `@NotNull` | ✅ Yes | ❌ No | ❌ No | ❌ No | Field must not be null. |
+            | `@NotEmpty` | ✅ Yes | ✅ Yes | ❌ No | ✅ Yes | Collection must not be empty. |
+            | `@NotBlank` | ✅ Yes | ✅ Yes | ✅ Yes | ❌ N/A (only Strings) | String must contain characters. |
+        5. `@Valid` tells Spring MVC to perform **validation** and **bind** the validation result using `BindingResult`.
+        6. Custom error messages in validation:
+            1. What type of error is occured during validation can be seen in the console by printing binding result. E.g., `System.out.println("\n\n\nBinding Result: "+bindingResult+"\n\n");`.
+            2. That error codes can be overriden using custom message in the messages.properties file inside resources folder. E.g., `typeMismatch.customer.empID=Invalid number`.
+        7. 
     
     ---
     
