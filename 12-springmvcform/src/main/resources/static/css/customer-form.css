@@ -39,6 +39,13 @@ label {
 input {
     padding: 10px 15px;
 }
+.star {
+    color: red;
+    font-weight: normal;
+}
+#info {
+    font-style: italic;
+}
 #submit {
     border-radius: 8px;
     align-self: center;
