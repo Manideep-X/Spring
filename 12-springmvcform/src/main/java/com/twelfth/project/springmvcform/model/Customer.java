@@ -28,6 +28,9 @@ public class Customer {
     @Max(value = 100, message = "Must be less than or equal to 100")
     @NotNull(message = "Employee ID is required")
     private Integer empID;
+
+    @MyCustomCode(value = "MVC", message = "Must start with MVC")
+    private String couponCode;
     
     public Customer() {
     }
@@ -35,12 +38,14 @@ public class Customer {
             @NotBlank(message = "Last name is required") String lastName,
             @Min(value = 1, message = "Must be greater than zero") @Max(value = 10, message = "Must be less than or equal to ten") @NotNull(message = "No. of guests is required") Integer noOfGuest,
             @Pattern(regexp = "^[1-9][0-9]{5}$", message = "Must be 6 digit no., first digit can't be 0") @NotBlank(message = "Postal code is required") String postalCode,
-            @Min(value = 1, message = "Must be greater than zero") @Max(value = 100, message = "Must be less than or equal to 100") @NotNull(message = "Employee ID is required") Integer empID) {
+            @Min(value = 1, message = "Must be greater than zero") @Max(value = 100, message = "Must be less than or equal to 100") @NotNull(message = "Employee ID is required") Integer empID,
+            String couponCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.noOfGuest = noOfGuest;
         this.postalCode = postalCode;
         this.empID = empID;
+        this.couponCode = couponCode;
     }
 
     public String getFirstName() {
