@@ -1,5 +1,7 @@
 package com.twelfth.project.springmvcform.model;
 
+import com.twelfth.project.springmvcform.validation.MyCustomCode;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +31,7 @@ public class Customer {
     @NotNull(message = "Employee ID is required")
     private Integer empID;
 
-    @MyCustomCode(value = "MVC", message = "Must start with MVC")
+    @MyCustomCode(value = "MNDP", message = "must start with MNDP")
     private String couponCode;
     
     public Customer() {
@@ -47,6 +49,7 @@ public class Customer {
         this.empID = empID;
         this.couponCode = couponCode;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -81,6 +84,13 @@ public class Customer {
     }
     public void setEmpID(Integer empID) {
         this.empID = empID;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
     }
 
 }

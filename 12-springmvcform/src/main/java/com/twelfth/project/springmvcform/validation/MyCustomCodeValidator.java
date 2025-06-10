@@ -14,7 +14,17 @@ public class MyCustomCodeValidator implements ConstraintValidator<MyCustomCode, 
 
     @Override
     public boolean isValid(String fieldCode, ConstraintValidatorContext additionalErrorMessages) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isValid'");
+        
+        boolean result;
+
+        if (fieldCode != null) {
+            result = fieldCode.startsWith(customPrefix);
+        }
+        else{
+            return true;
+        }
+
+        return result;
+
     }
 }
