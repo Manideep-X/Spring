@@ -15,6 +15,8 @@ public interface EmployeeService {
 
     Employee updateById(int id, Map<String, Object> patch);
 
+    Employee updateAllById(Employee employee);
+
     Employee deleteById(int id);
 
 }
