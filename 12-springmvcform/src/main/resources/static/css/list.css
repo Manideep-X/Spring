@@ -1,0 +1,16 @@
+.body-cover {
+    background-color: #f1eee5;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding-bottom: 5rem;
+    font-weight: bold;
+}
+.h1-cover {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
+    padding-top: 20px;
+    border-bottom: 1px solid black;
+    margin: 0px 0px 20px 0px;
+}
+.narrow-cover {
+    width: 75%;
+    margin: 0 auto;
+}
