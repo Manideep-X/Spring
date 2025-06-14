@@ -32,7 +32,7 @@ public class CustomerController {
     public String getForm(Model model) {
 
         model.addAttribute("customer", new Customer());
-        return "customer-form";
+        return "customer-form"; // This will return the html file inside the resources/templates folder of the mentioned name customer-form.
 
     }
 
