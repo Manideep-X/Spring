@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping(path = "/api/employees")
+@RequestMapping(path = "/api")
 public class EmployeeController {
 
     EmployeeService employeeService;
@@ -28,7 +29,8 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("")
+    // VIEW ALL EMPLOYEES
+    @GetMapping("/employees")
     public String getAllEmp(Model model) {
 
         List<Employee> employees = employeeService.findAll();
@@ -37,16 +39,24 @@ public class EmployeeController {
         return "list-employees";
     }
 
-    @GetMapping("/employees/{employeeId}")
-    public Employee getEmpById(@PathVariable("employeeId") int id) {
-        return employeeService.findById(id);
+    // CREATE A NEW EMPLOYEE
+    @GetMapping("/employees/create-employee")
+    public String getCreateEmp(Model model) {
+
+        Employee employee = new Employee();
+        model.addAttribute("employee", employee);
+        
+        return "form-employee";
+    }
+    @PostMapping("/employees/create-employee")
+    public String postEmp(@ModelAttribute("employee") Employee newEmployee) {
+        
+        employeeService.save(newEmployee);
+
+        return "redirect:/api/employees";
     }
 
-    @PostMapping("/employees")
-    public Employee postEmp(@RequestBody Employee employee) {
-        return employeeService.save(employee);
-    }
-
+    // UPDATE AN EMPLOYEE'S DETAILS
     @PutMapping("/employees")
     public Employee putEmp(@RequestBody Employee employee) {
         return employeeService.updateAllById(employee);
@@ -57,6 +67,7 @@ public class EmployeeController {
         return employeeService.updateById(id, patch);
     }
     
+    // DELETE AN EMPLOYEE
     @DeleteMapping("/employees/{employeeId}")
     public Employee deleteEmpById(@PathVariable("employeeId") int id) {
         return employeeService.deleteById(id);
