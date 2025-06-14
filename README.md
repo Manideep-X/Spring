@@ -1075,6 +1075,10 @@
                 1. `jpaRepository.save(EntityClass)`: To save/update the data; it returns **EntityClass** object.
                 2. `jpaRepository.findById(id)` and `jpaRepository.findAll()`: To fetch data; it returns **Optional<EntityClass>**.
                 3. `jpaRepository.deleteById(id)` or `jpaRepository.delete(EntityClass)`: To delete data; returns **void**.
+            5. **Custom method** in the **repository interface** after extending `JpaRepository`: 
+                1. Spring Data JPA will **automatically parse the method name** and look for a specific format and pattern to create the appropiate query.
+                2. following **naming convention** need to be followed to name the method:`<action><By><property><Condition><And/Or><MoreProperties>...` .
+                3. **Example:** `public List<Employee> findAllByOrderByLastNameAsc();` → This will write a query to find all details and sort it by last name in ascending order.
         13. **Spring Data REST:**
             1. **Spring Data Rest** automatically exports the JPA repositories as REST endpoints.
             2. It generates the endpoint’s paths based on the plural form of the **Entity class name**. So, if the name of the entity class is `EmployeeEntity` then the endpoint path will be [http://localhost:8082/employeeEntities](http://localhost:8082/employees).
