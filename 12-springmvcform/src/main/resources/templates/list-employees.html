@@ -41,10 +41,11 @@
                             <td th:text="${employee.lastName}"></td>
                             <td th:text="${employee.email}"></td>
                             <td class="operation">
-                                <a th:href="@{/api/employess/}" title="Update" class="btn btn-dark">
+                                <a th:href="@{/api/employees/update(employeeId=${employee.id})}" th:title="|Update emp. for id ${employee.id}|" class="btn btn-dark">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a th:href="@{/api/employess/}" title="Delete" class="btn btn-danger">
+                                <a th:href="@{/api/employees/delete(employeeId=${employee.id})}" th:title="|Delete emp. of id ${employee.id}|" class="btn btn-danger"
+                                onclick="return confirm(`Do you want to Delete all information regarding this employee? (CAN'T BE UNDONE)`)" >
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>

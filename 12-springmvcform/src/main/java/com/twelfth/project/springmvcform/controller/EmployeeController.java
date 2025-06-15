@@ -1,22 +1,19 @@
 package com.twelfth.project.springmvcform.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import com.twelfth.project.springmvcform.model.Employee;
 import com.twelfth.project.springmvcform.service.EmployeeService;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -24,10 +21,10 @@ import java.util.Map;
 public class EmployeeController {
 
     EmployeeService employeeService;
-
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
 
     // VIEW ALL EMPLOYEES
     @GetMapping("/employees")
@@ -38,6 +35,7 @@ public class EmployeeController {
         
         return "list-employees";
     }
+
 
     // CREATE A NEW EMPLOYEE
     @GetMapping("/employees/create-employee")
@@ -50,27 +48,37 @@ public class EmployeeController {
     }
     @PostMapping("/employees/create-employee")
     public String postEmp(@ModelAttribute("employee") Employee newEmployee) {
-        
-        employeeService.save(newEmployee);
+
+        if(newEmployee.getId() != null) {
+            employeeService.updateAllById(newEmployee);
+        } 
+        else {
+            employeeService.save(newEmployee);
+        }
 
         return "redirect:/api/employees";
     }
 
+
     // UPDATE AN EMPLOYEE'S DETAILS
-    @PutMapping("/employees")
-    public Employee putEmp(@RequestBody Employee employee) {
-        return employeeService.updateAllById(employee);
+    @GetMapping("/employees/update")
+    public String updateEmp(@RequestParam("employeeId") int id, Model model) {
+        
+        Employee theEmployee = employeeService.findById(id);
+
+        model.addAttribute("employee", theEmployee);
+
+        return "form-employee";
     }
 
-    @PatchMapping("/employees/{employeeId}")
-    public Employee patchEmpById(@RequestBody Map<String, Object> patch, @PathVariable("employeeId") int id) {
-        return employeeService.updateById(id, patch);
-    }
     
     // DELETE AN EMPLOYEE
-    @DeleteMapping("/employees/{employeeId}")
-    public Employee deleteEmpById(@PathVariable("employeeId") int id) {
-        return employeeService.deleteById(id);
+    @GetMapping("/employees/delete")
+    public String deleteEmpById(@RequestParam("employeeId") int id) {
+        
+        employeeService.deleteById(id);
+        
+        return "redirect:/api/employees";
     }
     
 

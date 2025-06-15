@@ -23,7 +23,8 @@ public class EmployeeServiceClass implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
-        if (employeeRepository.existsById(employee.getId())) {
+        Integer id = employee.getId();
+        if (id != null && employeeRepository.existsById(id)) {
             throw new RuntimeException("Employee ID already exists");
         }
         return employeeRepository.save(employee);
@@ -64,10 +65,10 @@ public class EmployeeServiceClass implements EmployeeService {
     @Override
     public Employee updateAllById(Employee employee) {
 
-        Employee employeeFromDB = employeeRepository.findById(employee.getId())
-                .orElseThrow(() -> new RuntimeException("Employee ID not found"));
-
-        return employeeRepository.save(employeeFromDB);
+        if (!employeeRepository.existsById(employee.getId())) {
+            throw new RuntimeException("Employee ID not found");
+        }
+        return employeeRepository.save(employee);
     }
 
     @Override
