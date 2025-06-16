@@ -42,8 +42,8 @@ public class SecurityConfig {
             .anyRequest().authenticated() // any request to this app must be authenticated
         
         ).formLogin(form -> form
-            .loginPage("/login")
-            .loginProcessingUrl("/authenticate")
+            .loginPage("/loginpage")
+            .loginProcessingUrl("/authenticate") // authentication is handled automatically by Spring Security, so no controller request mapping is required.
             .permitAll() // it is used to show the login page to everyone without login
         );
 
