@@ -9,7 +9,7 @@ public class DemoController {
     @GetMapping("/")
     public String gethome() {
         return "home";
-    }
+    }  
     
 
 }
