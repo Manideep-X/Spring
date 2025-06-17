@@ -13,25 +13,28 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- <style>
+    <style>
         .form-cover {
             margin: 7% auto;
-            max-width: 5in;
+            max-width: 6in;
+            padding: 40px 60px;
+            border-radius: 10px;
+            background-color: #fff;
         }
         .form-floating {
             margin-bottom: 15px;
         }
-    </style> -->
+    </style>
 
 </head>
 
-<body>
+<body style="background-color: lightgray;">
 
     <div class="body-cover">
 
         <div class="form-cover">
             <form th:action="@{/authenticate}" method="post">
-                <i class="fa fa-user" style="font-size: 75px;"></i>
+                <i class="fa fa-user-circle" style="font-size: 70px; padding-bottom: 15px;"></i>
                 <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
                 <div class="form-floating">
@@ -45,7 +48,7 @@
                     <label for="floatingPassword">Password</label>
                 </div>
 
-                <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+                <button class="btn btn-danger w-100 py-2" type="submit">Sign in</button>
 
                 <p class="mt-5 mb-3 text-body-secondary">@ login page</p>
             </form>
