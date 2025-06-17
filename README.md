@@ -1209,7 +1209,31 @@
         6. Custom error messages in validation:
             1. What type of error is occured during validation can be seen in the console by printing binding result. E.g., `System.out.println("\n\n\nBinding Result: "+bindingResult+"\n\n");`.
             2. That error codes can be overriden using custom message in the messages.properties file inside resources folder. E.g., `typeMismatch.customer.empID=Invalid number`.
-        7. 
+        7. **Spring MVC Security:**
+            1. **Spring Security filter chain**: It consists of a **series of filter** that checks every http request before passing it to the controllers o fthe application.
+                
+                ```java
+                @Bean
+                    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+                
+                        httpSecurity.authorizeHttpRequests(configurer -> configurer
+                            .anyRequest().authenticated() // any request to this app must be authenticated
+                        
+                        )
+                        .formLogin(form -> form
+                            .loginPage("/loginpage")
+                            .loginProcessingUrl("/authenticate") // authentication is handled automatically by Spring Security, so no controller request mapping is required.
+                            .permitAll() // it is used to show the login page to everyone without login
+                        )
+                        .logout(logout -> logout.permitAll()
+                        );
+                
+                        return httpSecurity.build();
+                
+                    }
+                ```
+                
+            2. 
     
     ---
     
