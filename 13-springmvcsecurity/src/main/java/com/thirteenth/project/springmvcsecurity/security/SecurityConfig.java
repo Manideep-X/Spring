@@ -41,10 +41,13 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(configurer -> configurer
             .anyRequest().authenticated() // any request to this app must be authenticated
         
-        ).formLogin(form -> form
+        )
+        .formLogin(form -> form
             .loginPage("/loginpage")
             .loginProcessingUrl("/authenticate") // authentication is handled automatically by Spring Security, so no controller request mapping is required.
             .permitAll() // it is used to show the login page to everyone without login
+        )
+        .logout(logout -> logout.permitAll()
         );
 
         return httpSecurity.build();

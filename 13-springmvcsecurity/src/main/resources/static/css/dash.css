@@ -1,0 +1,22 @@
+.navbar {
+    background-color: lightgray;
+    display: flex;
+    padding: 10px 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    font-weight: bolder;
+}
+.navbar h2 {
+    font-weight: bold;
+}
+.navbar button {
+    font-weight: bold; 
+    display: flex; 
+    align-items: center;
+}
+.heading {
+    text-decoration: underline;
+}
+.call-to-action {
+    padding: 10px 20px;
+}

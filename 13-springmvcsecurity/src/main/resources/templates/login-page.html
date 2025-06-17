@@ -50,7 +50,21 @@
 
                 <button class="btn btn-danger w-100 py-2" type="submit">Sign in</button>
 
-                <p class="mt-5 mb-3 text-body-secondary">@ login page</p>
+                <!-- Error can be fetched from param.error -->
+                <div th:if="${param.error}" class="mt-2">
+                    <div class="alert alert-danger" role="alert">  
+                        Username and/or password is incorrect. Try again !
+                    </div>
+                </div>
+                
+                <!-- After logging out message -->
+                <div th:if="${param.logout}" class="mt-2">
+                    <div class="alert alert-dark" role="alert">  
+                        You have been logged out.
+                    </div>
+                </div>
+
+                <p class="mt-3 mb-3 text-body-secondary">@ login page</p>
             </form>
         </div>
 
