@@ -39,6 +39,9 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(configurer -> configurer
+            .requestMatchers("/").hasAnyRole("EMPLOYEE")
+            .requestMatchers("/management").hasAnyRole("EMPLOYEE", "MANAGER")
+            .requestMatchers("/system").hasAnyRole("EMPLOYEE", "MANAGER", "ADMIN")
             .anyRequest().authenticated() // any request to this app must be authenticated
         
         )

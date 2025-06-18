@@ -11,4 +11,14 @@ public class LoginController {
         return "login-page";
     }
 
+    @GetMapping("/management")
+    public String getManagement() {
+        return "management";
+    }
+
+    @GetMapping("/system")
+    public String getSystem() {
+        return "system";
+    }
+
 }
