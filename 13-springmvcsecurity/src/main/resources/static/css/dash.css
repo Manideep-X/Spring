@@ -1,22 +1,90 @@
-.navbar {
+.body-cover{
+    width: auto;
+    height: 100vh;
+    display: grid;
+    grid-template-areas: 
+        "side sec";
+    grid-template-columns: 1fr 3fr;
+}
+.sidebar {
+    grid-area: side;
     background-color: lightgray;
-    display: flex;
-    padding: 10px 20px;
+    display: grid;
+    padding: 10px 10px;
     justify-content: space-between;
     border-bottom: 1px solid black;
     font-weight: bolder;
 }
-.navbar h2 {
+.sidebar ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+}
+.curr-pos {
+    background-color: rgba(0, 0, 0, 0.108) !important;
+    color: black !important;
+    border: none !important;
+    font-weight: bolder !important;
+}
+#nav-link {
+    flex: 0 50%;
+}
+#nav-link div {
+    margin-bottom: 2px;
+}
+.info-card {
+    display: grid;
+    grid-template-areas: 
+        "icon user"
+        "icon role";
+    grid-template-columns: 1fr 2fr;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.108);
+}
+.info-card i {
+    grid-area: icon;
+    display: flex;
+    padding: 5px 20px 5px 10px;
+    justify-content: center;
+    align-items: center;
+}
+#user {
+    grid-area: user;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+}
+#role {
+    grid-area: role;
+    font-size: small;
+    display: flex;
+    align-items: center;
+}
+.sidebar h2 {
     font-weight: bold;
 }
-.navbar button {
+.sidebar button {
     font-weight: bold; 
     display: flex; 
     align-items: center;
 }
 .heading {
-    text-decoration: underline;
+    font-weight: bolder;
+    margin-top: 0.6in;
+}
+.para {
+    padding: 20px;
 }
 .call-to-action {
-    padding: 10px 20px;
+    grid-area: sec;
+    padding: 26px 30px;
+}
+#top {
+    border-bottom: 1px solid black;
+}
+#top a {
+    text-decoration: none;
 }
