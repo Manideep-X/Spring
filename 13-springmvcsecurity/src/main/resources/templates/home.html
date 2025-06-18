@@ -19,22 +19,51 @@
 <body>
     <div class="body-cover">
 
-        <nav class="navbar">
-            <h2>Spring MVC</h2>
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="btn btn-danger">
-                    Logout <i class="fa fa-sign-out" style="font-size:25px; margin-left:5px;"></i>
-                </button>
-            </form>
+        <nav class="sidebar">
+            <ul style="padding: 10px 20px;">
+                <li>
+                    <h2 class="app-name">Spring MVC</h2>
+                </li>
+                <li>
+                    <div class="info-card">
+                        <i class="fa fa-user-circle" style="font-size: 55px;"></i>
+                        <span sec:authentication="principal.username" id="user"></span>
+                        <span sec:authentication="principal.authorities" id="role"></span>
+                    </div>
+                </li>
+                <li id="nav-link">
+                    <div sec:authorize="hasAnyRole('MANAGER', 'ADMIN')">
+                        <a th:href="@{/}" class="list-group-item list-group-item-action active curr-pos"
+                            style="font-weight: bold; height:11vh; display:flex; align-items:center;">Home</a>
+                    </div>
+                    <div sec:authorize="hasRole('MANAGER')">
+                        <a th:href="@{/management}" class="list-group-item list-group-item-action"
+                            style="font-weight: bold; height:11vh; display:flex; align-items:center;">Visit the
+                            management dashboard</a>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/system}" class="list-group-item list-group-item-action"
+                            style="font-weight: bold; height:11vh; display:flex; align-items:center;">Visit the System
+                            dashboard</a>
+                    </div>
+                </li>
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            Logout <i class="fa fa-sign-out" style="font-size:25px; margin-left:5px;"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
         </nav>
+
         <section class="call-to-action">
+            <p id="top">
+                Home
+            </p>
             <h1 class="heading">
                 Spring MVC Security Home Page
             </h1>
-            <div class="user-role">
-                User : <span sec:authentication="principal.username"></span>
-                Role(s) : <span sec:authentication="principal.authorities"></span>
-            </div>
             <p class="para">
                 Home page of the Spring MVC Security web application
             </p>

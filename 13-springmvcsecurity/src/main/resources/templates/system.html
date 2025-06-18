@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,8 +17,58 @@
 </head>
 
 <body>
-    
+    <div class="body-cover">
 
+        <nav class="sidebar">
+            <ul style="padding: 10px 20px;">
+                <li>
+                    <h2 class="app-name">Spring MVC</h2>
+                </li>
+                <li>
+                    <div class="info-card">
+                        <i class="fa fa-user-circle" style="font-size: 55px;"></i>
+                        <span sec:authentication="principal.username" id="user"></span>
+                        <span sec:authentication="principal.authorities" id="role"></span>
+                    </div>
+                </li>
+                <li id="nav-link">
+                    <div>
+                        <a th:href="@{/}" class="list-group-item list-group-item-action"
+                            style="font-weight: bold; height:11vh; display:flex; align-items:center;">Home</a>
+                    </div>
+                    <div sec:authorize="hasRole('MANAGER')">
+                        <a th:href="@{/management}" class="list-group-item list-group-item-action"
+                            style="font-weight: bold; height:11vh; display:flex; align-items:center;">Visit the
+                            management dashboard</a>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/system}" class="list-group-item list-group-item-action active curr-pos"
+                            style="font-weight: bold; height:11vh; display:flex; align-items:center;">Visit the System dashboard</a>
+                    </div>
+                </li>
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            Logout <i class="fa fa-sign-out" style="font-size:25px; margin-left:5px;"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
 
+        <section class="call-to-action">
+            <p id="top">
+                <a th:href="@{/}">Home</a> > System
+            </p>
+            <h1 class="heading">
+                Spring MVC Security System
+            </h1>
+            <p class="para">
+                System configuration and structure of Spring MVC Security web application
+            </p>
+        </section>
+
+    </div>
 </body>
+
 </html>
