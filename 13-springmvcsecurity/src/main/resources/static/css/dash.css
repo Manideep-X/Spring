@@ -88,3 +88,35 @@
 #top a {
     text-decoration: none;
 }
+
+
+.error-body {
+    background-color: lightgray;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.error-cover {
+    background-color: #fff;
+    width: 60%;
+    height: 60%;
+    padding: 60px 70px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.error-cover a {
+    text-decoration: none;
+}
+.error-heading {
+    font-weight: bold;
+}
+.error-para {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

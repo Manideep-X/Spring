@@ -40,10 +40,13 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests(configurer -> configurer
             .requestMatchers("/").hasRole("EMPLOYEE")
-            .requestMatchers("/management").hasRole("MANAGER")
-            .requestMatchers("/system").hasRole("ADMIN")
+            .requestMatchers("/management/**").hasRole("MANAGER")
+            .requestMatchers("/system/**").hasRole("ADMIN")
             .anyRequest().authenticated() // any request to this app must be authenticated
         
+        )
+        .exceptionHandling(configurer -> configurer
+            .accessDeniedPage("/access-denied")
         )
         .formLogin(form -> form
             .loginPage("/loginpage")
