@@ -44,6 +44,9 @@ public class SecurityConfig {
 
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
+        jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT name, pass, active FROM members WHERE name = ?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT user_name, user_role FROM roles WHERE user_name = ?");
+
         return jdbcUserDetailsManager;
 
     }
