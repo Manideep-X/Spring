@@ -1,38 +1,51 @@
 package com.thirteenth.project.springmvcsecurity.security;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+// import org.springframework.security.core.userdetails.User;
+// import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
 
+    // @Bean
+    // InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+
+    //     UserDetails john = User.builder()
+    //             .username("john")
+    //             .password("{noop}123")
+    //             .roles("EMPLOYEE")
+    //             .build();
+
+    //     UserDetails mary = User.builder()
+    //             .username("mary")
+    //             .password("{noop}123")
+    //             .roles("EMPLOYEE", "MANAGER")
+    //             .build();
+
+    //     UserDetails susan = User.builder()
+    //             .username("susan")
+    //             .password("{noop}123")
+    //             .roles("EMPLOYEE", "MANAGER", "ADMIN")
+    //             .build();
+
+    //     return new InMemoryUserDetailsManager(john, mary, susan);
+    // }
+
     @Bean
-    InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+    UserDetailsManager userDetailsManager(DataSource dataSource) {
 
-        UserDetails john = User.builder()
-                .username("john")
-                .password("{noop}123")
-                .roles("EMPLOYEE")
-                .build();
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
-        UserDetails mary = User.builder()
-                .username("mary")
-                .password("{noop}123")
-                .roles("EMPLOYEE", "MANAGER")
-                .build();
+        return jdbcUserDetailsManager;
 
-        UserDetails susan = User.builder()
-                .username("susan")
-                .password("{noop}123")
-                .roles("EMPLOYEE", "MANAGER", "ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(john, mary, susan);
     }
 
     @Bean
