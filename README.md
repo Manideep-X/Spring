@@ -1210,7 +1210,7 @@
             1. What type of error is occured during validation can be seen in the console by printing binding result. E.g., `System.out.println("\n\n\nBinding Result: "+bindingResult+"\n\n");`.
             2. That error codes can be overriden using custom message in the messages.properties file inside resources folder. E.g., `typeMismatch.customer.empID=Invalid number`.
         7. **Spring MVC Security:**
-            1. **Spring Security filter chain**: It consists of a **series of filter** that checks every http request before passing it to the controllers o fthe application.
+            1. **Spring Security filter chain**: It consists of a **series of filter** that checks every http request before passing it to the controllers of the application.
                 
                 ```java
                 @Bean
@@ -1233,7 +1233,93 @@
                     }
                 ```
                 
-            2. 
+            2. To display any HTML element based on user roles using Thymeleaf:
+                1. `<div sec:authorize=”hasRole(’ADMIN’)”></div>`→ visible to admin only.
+                2. `<div sec:authorize=”hasAnyRole(’ADMIN’, ’MANAGER’)”></div>`→ visible to admin and manager only.
+                3. `<div sec:authorize=”isAnonymous()”></div>`→ visible to the one who are not logged in.
+                4. `<div sec:authorize=”isAuthenticated()”></div>`→ visible to anyone who are logged in.
+    
+    ---
+    
+    - **JPA/Hibernate Advance Mapping**
+        1. For `@OneToOne` relation between two entities:
+            1. Each entry in one entity is associated with exactly one entry in another entity.
+            - **Example:** ⤵️
+                
+                ```java
+                // USER ENTITY
+                @Entity
+                @Table(name = "user")
+                public class User {
+                
+                    @Id
+                    @GeneratedValue
+                    @Column(name = "id")
+                    private Long id;
+                
+                    @OneToOne(cascade = CascadeType.ALL)
+                    @JoinColumn(name = "profile_id") // foreign key column in "user" table
+                    private Profile profile;
+                }
+                
+                // PROFILE ENTITY
+                @Entity
+                @Table(name = "profile")
+                public class Profile {
+                
+                    @Id
+                    @GeneratedValue
+                    @Column(name = "profile_id")
+                    private Long id;
+                
+                    @Column(name = "profile_bio")
+                    private String bio;
+                }
+                ```
+                
+        2. For `@OneToMany` relation between two entities (same for `@ManyToOne` mapping):
+            1. Each entry in one entity is associated with more than one entry in another entity.
+            2. There are 2 sides for a relationship: **owning** and **inverse**. 
+                - **mappedBy should be in the inverse side** which in this case is Department entity and `@JoinColumn` **should be in the owning side** which defines the foreign key is Employee entity.
+            - **Example:** ⤵️
+                
+                ```java
+                // DEPARTMENT ENTITY
+                @Entity
+                public class Department {
+                    @Id @GeneratedValue
+                    private Long id;
+                
+                    private String name;
+                
+                    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+                    private List<Employee> employees;
+                }
+                
+                //EMPLOYEE ENTITY
+                @Entity
+                public class Employee {
+                    @Id @GeneratedValue
+                    private Long id;
+                
+                    private String name;
+                
+                    @ManyToOne
+                    @JoinColumn(name = "department_id")
+                    private Department department;
+                }
+                ```
+                
+        3. For `@ManyToMany` relation between two entities:
+            1. One or more entries in one entity is associated with one or more entries in another entity.
+            2. Anyone side can be owning or inverse depending on the usecase.
+            3. 
+            - **Example:** ⤵️
+                
+                ```java
+                
+                ```
+                
     
     ---
     
