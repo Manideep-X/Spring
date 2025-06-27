@@ -604,6 +604,7 @@
 
 - **Proceed after knowing Core Java and SQL.**
 - **Need to follow the codes alongside during revision.**
+- **Any point highlighted as Red or marked as ⚠️ is IMPORTANT.**
 
 ---
 
@@ -988,6 +989,9 @@
         
         ---
         
+        1. ⚠️ Difference between `PRIMARY KEY` and `UNIQUE KEY` in MySQL:
+            1. `Unique key` allows NULL but `Primary key` doesn’t.
+            2. `Primary key` can have only one defination per table **(single primary or composite)** but `Unique key` can have multiple defination per table.
     
     ---
     
@@ -1279,7 +1283,7 @@
                 
         2. For `@OneToMany` relation between two entities (same for `@ManyToOne` mapping):
             1. Each entry in one entity is associated with more than one entry in another entity.
-            2. There are 2 sides for a relationship: **owning** and **inverse**. 
+            2. There are 2 sides for a relationship: **owning** and **inverse/target**. 
                 - **mappedBy should be in the inverse side** which in this case is Department entity and `@JoinColumn` **should be in the owning side** which defines the foreign key is Employee entity.
             - **Example:** ⤵️
                 
@@ -1312,14 +1316,56 @@
                 
         3. For `@ManyToMany` relation between two entities:
             1. One or more entries in one entity is associated with one or more entries in another entity.
-            2. Anyone side can be owning or inverse depending on the usecase.
-            3. 
+            2. **Anyone side** can be owning or inverse/target depending on the usecase.
             - **Example:** ⤵️
                 
                 ```java
+                // Student Entity
+                @Entity
+                public class Student {
+                    @Id @GeneratedValue
+                			    private Long id;
                 
+                    private String name;
+                
+                    @ManyToMany
+                    @JoinTable(
+                        name = "student_course",  // New join table created by JPA
+                        joinColumns = @JoinColumn(name = "student_id"),  // Foreign key of the join table and primary of student which is id
+                        inverseJoinColumns = @JoinColumn(name = "course_id")  // Foreign key of the join table and primary of course which is id
+                    )
+                    private List<Course> courses;
+                }
+                
+                // Course Entity
+                @Entity
+                public class Course {
+                    @Id @GeneratedValue
+                    private Long id;
+                
+                    private String title;
+                
+                    @ManyToMany(mappedBy = "courses")
+                    private List<Student> students;
+                }
                 ```
                 
+        4. **⚠️ NOT** a great idea to use **cascade** in `@ManyToMany` :
+            1. For the below example: After **persist/saving** of the two student **s1** and **s2**, if the **deletion** of the course is performed then both the **students will be deleted** along with it.
+            - **Example:** ⤵️
+                
+                ```java
+                Course course = new Course();
+                course.setName("Java");
+                
+                Student s1 = new Student("Amit");
+                Student s2 = new Student("Ravi");
+                
+                course.setStudents(List.of(s1, s2));
+                courseRepository.save(course); // Cascade in Course triggers here
+                ```
+                
+        5. 
     
     ---
     
