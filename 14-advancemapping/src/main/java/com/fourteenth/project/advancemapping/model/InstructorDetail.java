@@ -32,6 +32,9 @@ public class InstructorDetail {
     public int getId() {
         return id;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getPortfolio() {
         return portfolio;
@@ -45,6 +48,11 @@ public class InstructorDetail {
     }
     public void setHobby(String hobby) {
         this.hobby = hobby;
+    }
+    
+    @Override
+    public String toString() {
+        return "InstructorDetail [id=" + id + ", portfolio=" + portfolio + ", hobby=" + hobby + "]";
     }
 
 }
