@@ -24,6 +24,13 @@ public class InstructorDetail {
     @Column(name = "hobby")
     private String hobby;
 
+
+    // @OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) 
+    /* 
+        To only delete the instructorDetail rows without cascade deleting the instructor one, 
+            1. we need to add all cascade type except the REMOVE one.
+            2. And need to set instructorDetail.getInstructor().setInstructorDetail(null) before deleting the instructorDetail to break the bi-directional link.
+    */
     @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL) // cascade is needed for add and delete operations.
     private Instructor instructor;
     // Both of the above line is used for Bi-directional one-to-one mapping along with the getter and setter for the instructor.
