@@ -34,7 +34,6 @@ public class Instructor {
 
     public Instructor() {
     }
-
     public Instructor(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,14 +65,18 @@ public class Instructor {
         this.email = email;
     }
 
+    public InstructorDetail getInstructorDetail() {
+        return instructorDetail;
+    }
     public void setInstructorDetail(InstructorDetail instructorDetail) {
         this.instructorDetail = instructorDetail;
     }
-
+    
     @Override
     public String toString() {
         return "Instructor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-                + "]";
+                + ", instructorDetail=" + instructorDetail + "]";
     }
+
 
 }
