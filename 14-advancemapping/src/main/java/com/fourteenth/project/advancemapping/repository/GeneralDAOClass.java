@@ -49,8 +49,17 @@ public class GeneralDAOClass implements GeneralDAO {
 
     // DELETE INSTRUCTOR DETAIL ALONG WITH INSTRUCTOR BY ID
     @Override
+    @Transactional
     public void deleteInstructorDetailById(int id) {
         InstructorDetail instructorDetail = entityManager.find(InstructorDetail.class, id);
+
+        // instructorDetail.getInstructor().setInstructorDetail(null);
+        /* 
+            To only delete the instructorDetail rows without cascade deleting the instructor one, 
+                1. we need to add all cascade type except the REMOVE one.
+                2. And need to set instructorDetail.getInstructor().setInstructorDetail(null) before deleting the instructorDetail to break the bi-directional link.
+        */
+
         entityManager.remove(instructorDetail);
     }
 
