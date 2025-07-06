@@ -1,10 +1,12 @@
 package com.fourteenth.project.advancemapping.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +23,10 @@ public class InstructorDetail {
 
     @Column(name = "hobby")
     private String hobby;
+
+    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL) // cascade is needed for add and delete operations.
+    private Instructor instructor;
+    // Both of the above line is used for Bi-directional one-to-one mapping along with the getter and setter for the instructor.
 
     public InstructorDetail() {
     }
@@ -50,6 +56,13 @@ public class InstructorDetail {
         this.hobby = hobby;
     }
     
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
     @Override
     public String toString() {
         return "InstructorDetail [id=" + id + ", portfolio=" + portfolio + ", hobby=" + hobby + "]";
