@@ -1,5 +1,6 @@
 package com.fourteenth.project.advancemapping.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -77,6 +78,15 @@ public class Instructor {
     }
     public void setInstructorDetail(InstructorDetail instructorDetail) {
         this.instructorDetail = instructorDetail;
+    }
+
+    // Need to sync both side manually. For more details, visit the Notion guide.
+    public void add(Course theCourse) {
+        if (courses == null) {
+            courses = new ArrayList<>();
+        }
+        courses.add(theCourse);
+        theCourse.setInstructor(this);
     }
     
     @Override

@@ -1,4 +1,5 @@
 USE `manage_edu_db`;
+DROP TABLE IF EXISTS `course`;
 
 CREATE TABLE `course` (
 	`id` int NOT NULL AUTO_INCREMENT,
@@ -8,4 +9,4 @@ CREATE TABLE `course` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`title`),
     FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`id`)
-) AUTO_INCREMENT = 1 ;
+) AUTO_INCREMENT = 10 ;
