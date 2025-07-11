@@ -1,12 +1,16 @@
 package com.fourteenth.project.advancemapping.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fourteenth.project.advancemapping.model.Course;
 import com.fourteenth.project.advancemapping.model.Instructor;
 import com.fourteenth.project.advancemapping.model.InstructorDetail;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 @Repository
 public class GeneralDAOClass implements GeneralDAO {
@@ -61,6 +65,16 @@ public class GeneralDAOClass implements GeneralDAO {
         */
 
         entityManager.remove(instructorDetail);
+    }
+
+    // FINDING COURSES FOR A INSTRUCTOR BY ITS ID
+    @Override
+    public List<Course> findCoursesByInstructorId(int id) {
+        
+        TypedQuery<Course> query = entityManager.createQuery("from Course where instructor.id = :ins_id", Course.class);
+        query.setParameter("ins_id", id);
+
+        return query.getResultList();
     }
 
 }

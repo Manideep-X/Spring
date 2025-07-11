@@ -26,6 +26,8 @@ public class Course {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    public Course() {
+    }
     public Course(String title) {
         this.title = title;
     }
@@ -50,8 +52,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course [id=" + id + ", title=" + title + ", instructor=" + instructor + ", getInstructor()="
-                + getInstructor() + "]";
+        return "Course [id=" + id + ", title=" + title + "]";
     }
     
 
