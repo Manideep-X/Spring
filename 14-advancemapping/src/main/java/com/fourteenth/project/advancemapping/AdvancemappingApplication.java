@@ -34,10 +34,23 @@ public class AdvancemappingApplication {
 
 			/* FOR ONE-TO-MANY/MANY-TO-ONE RELATIONSHIP */
 			// createInstructorAndCourse(generalDAO);
-			// findInstructorWithCourse(generalDAO);
+			// findInstructorWithCourse(generalDAO); // This will show error for LAZY fetch type
 			findCoursesByInstructor(generalDAO);
+			findInstructorWithCourseFetchJoin(generalDAO);
 		};
 
+	}
+
+	private void findInstructorWithCourseFetchJoin(GeneralDAO generalDAO) {
+		
+		int id = 9;
+		System.out.println("\n\nFinding instructor details with ID: "+id+"...\n");
+
+		Instructor instructor = generalDAO.findInstructorByIdJoinFetch(id);
+
+		System.out.println("\n\n"+instructor);
+		System.out.println("\n\n"+instructor.getCourses());
+	
 	}
 
 	private void findCoursesByInstructor(GeneralDAO generalDAO) {
