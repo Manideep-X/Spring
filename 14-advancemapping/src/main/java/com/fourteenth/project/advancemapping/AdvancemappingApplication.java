@@ -1,10 +1,13 @@
 package com.fourteenth.project.advancemapping;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.fourteenth.project.advancemapping.model.Course;
 import com.fourteenth.project.advancemapping.model.Instructor;
 import com.fourteenth.project.advancemapping.model.InstructorDetail;
 import com.fourteenth.project.advancemapping.repository.GeneralDAO;
@@ -22,12 +25,72 @@ public class AdvancemappingApplication {
 		return args -> {
 			System.out.println("\n"+args);
 
+			/* FOR ONE-TO-ONE RELATIONSHIP */
 			// createInstructor(generalDAO);
-			findInstructorById(generalDAO);
+			// findInstructorById(generalDAO);
 			// deleteInstructorById(generalDAO);
-			findInstructorDetailById(generalDAO);
-			deleteInstructorDetailById(generalDAO);
+			// findInstructorDetailById(generalDAO);
+			// deleteInstructorDetailById(generalDAO);
+
+			/* FOR ONE-TO-MANY/MANY-TO-ONE RELATIONSHIP */
+			// createInstructorAndCourse(generalDAO);
+			// findInstructorWithCourse(generalDAO);
+			findCoursesByInstructor(generalDAO);
 		};
+
+	}
+
+	private void findCoursesByInstructor(GeneralDAO generalDAO) {
+		
+		int id = 10;
+
+		System.out.println("\n\nFinding instructor details with ID: "+id+"...\n");
+		Instructor instructor = generalDAO.findInstructorById(id);
+		System.out.println("\n\n"+instructor);
+
+		List<Course> courses = generalDAO.findCoursesByInstructorId(id);
+
+		instructor.setCourses(courses);
+		System.out.println("\n\nCourses are ...");
+		for (Course course : instructor.getCourses()) {
+			System.out.println(course);
+		}
+
+	}
+
+	private void findInstructorWithCourse(GeneralDAO generalDAO) {
+		
+		int id = 9;
+		System.out.println("\n\nFinding instructor details with ID: "+id+"...\n");
+
+		Instructor instructor = generalDAO.findInstructorById(id);
+
+		System.out.println("\n\n"+instructor);
+		System.out.println("\n\n"+instructor.getCourses());
+
+	}
+
+	private void createInstructorAndCourse(GeneralDAO generalDAO) {
+		
+		Instructor instructor = new Instructor("John","Gomez","john.gomez@gmail.com");
+
+		InstructorDetail instructorDetail = new InstructorDetail("https://www.youtube.com","Drawing");
+
+		// This will associate both the objects
+		instructor.setInstructorDetail(instructorDetail);
+
+		Course course1 = new Course("JPA/Hibernate with Spring MVC");
+		Course course2 = new Course("Spring Boot with Spring AOP");
+
+		instructor.add(course1);
+		instructor.add(course2);
+
+		System.out.println("\n\nSaving the new instructor and other details ...");
+		System.out.println(instructor);
+		System.out.println(instructor.getCourses());
+		// This will also save the instructorDetails and courses object because of CascadeType.PERSIST
+		generalDAO.save(instructor);
+		System.out.println("\nsaved");
 
 	}
 
