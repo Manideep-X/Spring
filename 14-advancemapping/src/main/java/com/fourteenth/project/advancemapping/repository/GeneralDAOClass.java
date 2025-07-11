@@ -76,5 +76,16 @@ public class GeneralDAOClass implements GeneralDAO {
 
         return query.getResultList();
     }
+    
+    @Override
+    public Instructor findInstructorByIdJoinFetch(int id) {
+        
+        TypedQuery<Instructor> query = entityManager.createQuery(
+            "from Instructor as i JOIN FETCH i.courses where i.id = :ins_id", Instructor.class
+        );
+        query.setParameter("ins_id", id);
+        
+        return query.getSingleResult();    
+    }
 
 }

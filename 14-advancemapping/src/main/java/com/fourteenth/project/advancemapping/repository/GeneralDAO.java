@@ -20,4 +20,6 @@ public interface GeneralDAO {
 
     List<Course> findCoursesByInstructorId(int id);
 
+    Instructor findInstructorByIdJoinFetch(int id);
+
 }
