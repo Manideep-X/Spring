@@ -50,6 +50,13 @@ public class GeneralDAOClass implements GeneralDAO {
     public InstructorDetail findInstructorDetailById(int id) {
         return entityManager.find(InstructorDetail.class, id);
     }
+    
+    // FIND COURSE'S INFO BY COURSE ID
+    @Override
+    @Transactional(readOnly = true)
+    public Course findCourseById(int id) {
+        return entityManager.find(Course.class, id);
+    }
 
     // DELETE INSTRUCTOR DETAIL ALONG WITH INSTRUCTOR BY ID
     @Override
@@ -69,6 +76,7 @@ public class GeneralDAOClass implements GeneralDAO {
 
     // FINDING COURSES FOR A INSTRUCTOR BY ITS ID
     @Override
+    @Transactional(readOnly = true)
     public List<Course> findCoursesByInstructorId(int id) {
         
         TypedQuery<Course> query = entityManager.createQuery("from Course where instructor.id = :ins_id", Course.class);
@@ -77,7 +85,9 @@ public class GeneralDAOClass implements GeneralDAO {
         return query.getResultList();
     }
     
+    // FETCHING INSTRUCTOR AND COURSE IN ONE QUERY (MAINLY FOR LAZY FETCH TYPE)
     @Override
+    @Transactional(readOnly = true)
     public Instructor findInstructorByIdJoinFetch(int id) {
         
         TypedQuery<Instructor> query = entityManager.createQuery(
@@ -86,6 +96,44 @@ public class GeneralDAOClass implements GeneralDAO {
         query.setParameter("ins_id", id);
         
         return query.getSingleResult();    
+    }
+
+    // UPDATING INSTRUCTOR
+    @Override
+    @Transactional
+    public void updateInstructor(Instructor instructor) {
+        entityManager.merge(instructor);
+    }
+
+    // UPDATING COURSE
+    @Override
+    @Transactional
+    public void updateCourse(Course course) {
+        entityManager.merge(course);
+    }
+
+    // DELETE INSTRUCTOR BY INSTRUCTOR'S ID
+    @Override
+    @Transactional
+    public void deleteInstructorByIdBidir(int id) {
+        
+        Instructor instructor = entityManager.find(Instructor.class, id);
+        List<Course> courses = instructor.getCourses();
+
+        for (Course course : courses) {
+            course.setInstructor(null);
+        }
+
+        entityManager.remove(instructor);
+
+    }
+    
+    // DELETE COURSE BY COURSE'S ID
+    @Override
+    @Transactional
+    public void deleteCourseById(int id) {
+        Course course = entityManager.find(Course.class, id);
+        entityManager.remove(course);
     }
 
 }
