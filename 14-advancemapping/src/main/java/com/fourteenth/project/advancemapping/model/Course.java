@@ -1,5 +1,6 @@
 package com.fourteenth.project.advancemapping.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -29,7 +30,8 @@ public class Course {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL) // by default fetch is FetchType.LAZY
+    @JoinColumn(name = "course_id")
     private List<Review> reviews;
 
     public Course() {
@@ -54,6 +56,20 @@ public class Course {
     }
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+    
+    public void add(Review review) {
+        if (reviews == null) {
+            reviews = new ArrayList<>();
+        }
+        reviews.add(review);
     }
 
     @Override

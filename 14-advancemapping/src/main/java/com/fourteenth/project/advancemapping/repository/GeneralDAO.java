@@ -32,4 +32,8 @@ public interface GeneralDAO {
 
     void deleteCourseById(int id);
 
+    void save(Course course);
+
+    Course findCourseWithReviewById(int id);
+
 }

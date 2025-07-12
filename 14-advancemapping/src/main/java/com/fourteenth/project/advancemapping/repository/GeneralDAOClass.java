@@ -136,4 +136,25 @@ public class GeneralDAOClass implements GeneralDAO {
         entityManager.remove(course);
     }
 
+    // SAVE A COURSE AS WELL AS REVIEW(S)
+    @Override
+    @Transactional
+    public void save(Course course) {
+        entityManager.persist(course); // this will save review as well due to CascadeType.ALL
+    }
+
+    // FINDING COURSE AND IT'S REVIEW(S) USING COURSE ID
+    @Override
+    @Transactional(readOnly = true)
+    public Course findCourseWithReviewById(int id) {
+        
+        TypedQuery<Course> query = entityManager.createQuery(
+            "select c from Course as c JOIN FETCH c.reviews where c.id = :course_id", Course.class);
+
+        query.setParameter("course_id", id);
+
+        return query.getSingleResult();
+
+    }
+
 }
