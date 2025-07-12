@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import com.fourteenth.project.advancemapping.model.Course;
 import com.fourteenth.project.advancemapping.model.Instructor;
 import com.fourteenth.project.advancemapping.model.InstructorDetail;
+import com.fourteenth.project.advancemapping.model.Review;
 import com.fourteenth.project.advancemapping.repository.GeneralDAO;
 
 @SpringBootApplication
@@ -40,9 +41,40 @@ public class AdvancemappingApplication {
 			// updateCourseById(generalDAO);
 			// findInstructorWithCourseFetchJoin(generalDAO);
 			// deleteInstructorByIdBidir(generalDAO);
-			deleteCourseById(generalDAO);
+			// deleteCourseById(generalDAO);
+			// createCourseWithReview(generalDAO);
+			findCourseWithReviewById(generalDAO);
+			deleteCourseWithReviewById(generalDAO);
 		};
 
+	}
+
+	private void deleteCourseWithReviewById(GeneralDAO generalDAO) {
+		int id = 14;
+		System.out.println("\n\nDeleting course with ID: "+id+" ...\n");
+		generalDAO.deleteCourseById(id);
+		System.out.println("\n\nCourse deleted!");
+	}
+
+	private void findCourseWithReviewById(GeneralDAO generalDAO) {
+		int id = 14;
+
+		Course course = generalDAO.findCourseWithReviewById(id);
+
+		System.out.println("\n\n"+course);
+		for (Review review : course.getReviews()) {
+			System.out.println(review);
+		}
+	}
+
+	private void createCourseWithReview(GeneralDAO generalDAO) {
+		Course course = new Course("Java Backend Development with Spring Boot");
+
+		course.add(new Review("Well structured course, this is a good one"));
+		course.add(new Review("Highly recommend, great for beginners"));
+		course.add(new Review("Doesn't contain important stuffs, useless course"));
+
+		generalDAO.save(course);
 	}
 
 	private void deleteCourseById(GeneralDAO generalDAO) {
