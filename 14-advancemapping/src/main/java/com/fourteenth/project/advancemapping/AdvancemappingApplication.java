@@ -23,7 +23,7 @@ public class AdvancemappingApplication {
 	CommandLineRunner commandLineRunner(GeneralDAO generalDAO) {
 
 		return args -> {
-			System.out.println("\n"+args);
+			System.out.println("\n" + args);
 
 			/* FOR ONE-TO-ONE RELATIONSHIP */
 			// createInstructor(generalDAO);
@@ -35,31 +35,75 @@ public class AdvancemappingApplication {
 			/* FOR ONE-TO-MANY/MANY-TO-ONE RELATIONSHIP */
 			// createInstructorAndCourse(generalDAO);
 			// findInstructorWithCourse(generalDAO); // This will show error for LAZY fetch type
-			findCoursesByInstructor(generalDAO);
-			findInstructorWithCourseFetchJoin(generalDAO);
+			// findCoursesByInstructor(generalDAO);
+			// updateInstructorById(generalDAO);
+			// updateCourseById(generalDAO);
+			// findInstructorWithCourseFetchJoin(generalDAO);
+			// deleteInstructorByIdBidir(generalDAO);
+			deleteCourseById(generalDAO);
 		};
 
 	}
 
-	private void findInstructorWithCourseFetchJoin(GeneralDAO generalDAO) {
-		
+	private void deleteCourseById(GeneralDAO generalDAO) {
+		int id = 10;
+		System.out.println("\n\nDeleting the Course with ID : " + id + " ...");
+		generalDAO.deleteCourseById(id);
+		System.out.println("\n\nDeleted successfully!");
+	}
+
+	private void deleteInstructorByIdBidir(GeneralDAO generalDAO) {
 		int id = 9;
-		System.out.println("\n\nFinding instructor details with ID: "+id+"...\n");
+		System.out.println("\n\nDeleting the instructor with ID : " + id + " ...");
+		generalDAO.deleteInstructorByIdBidir(id);
+		System.out.println("\n\nDeleted successfully!");
+	}
+
+	private void updateCourseById(GeneralDAO generalDAO) {
+
+		int id = 12;
+		System.out.println("\n\nFetching and Updating Course details with ID: " + id + "...\n\n");
+		Course course = generalDAO.findCourseById(id);
+
+		course.setTitle("Spring Boot with JPA/Hibernate [Updated]");
+
+		generalDAO.updateCourse(course);
+		System.out.println("\n\nUpdated!");
+
+	}
+
+	private void updateInstructorById(GeneralDAO generalDAO) {
+
+		int id = 9;
+		System.out.println("\n\nFetching and Updating Instructor details with ID: " + id + "...\n\n");
+		Instructor instructor = generalDAO.findInstructorByIdJoinFetch(id);
+
+		instructor.setEmail("updated.email@gmail.com");
+
+		generalDAO.updateInstructor(instructor);
+		System.out.println("\n\nUpdated!");
+
+	}
+
+	private void findInstructorWithCourseFetchJoin(GeneralDAO generalDAO) {
+
+		int id = 10;
+		System.out.println("\n\nFinding instructor details with ID: " + id + "...\n");
 
 		Instructor instructor = generalDAO.findInstructorByIdJoinFetch(id);
 
-		System.out.println("\n\n"+instructor);
-		System.out.println("\n\n"+instructor.getCourses());
-	
+		System.out.println("\n\n" + instructor);
+		System.out.println("\n\n" + instructor.getCourses());
+
 	}
 
 	private void findCoursesByInstructor(GeneralDAO generalDAO) {
-		
+
 		int id = 10;
 
-		System.out.println("\n\nFinding instructor details with ID: "+id+"...\n");
+		System.out.println("\n\nFinding instructor details with ID: " + id + "...\n");
 		Instructor instructor = generalDAO.findInstructorById(id);
-		System.out.println("\n\n"+instructor);
+		System.out.println("\n\n" + instructor);
 
 		List<Course> courses = generalDAO.findCoursesByInstructorId(id);
 
@@ -72,22 +116,22 @@ public class AdvancemappingApplication {
 	}
 
 	private void findInstructorWithCourse(GeneralDAO generalDAO) {
-		
+
 		int id = 9;
-		System.out.println("\n\nFinding instructor details with ID: "+id+"...\n");
+		System.out.println("\n\nFinding instructor details with ID: " + id + "...\n");
 
 		Instructor instructor = generalDAO.findInstructorById(id);
 
-		System.out.println("\n\n"+instructor);
-		System.out.println("\n\n"+instructor.getCourses());
+		System.out.println("\n\n" + instructor);
+		System.out.println("\n\n" + instructor.getCourses());
 
 	}
 
 	private void createInstructorAndCourse(GeneralDAO generalDAO) {
-		
-		Instructor instructor = new Instructor("John","Gomez","john.gomez@gmail.com");
 
-		InstructorDetail instructorDetail = new InstructorDetail("https://www.youtube.com","Drawing");
+		Instructor instructor = new Instructor("John", "Gomez", "john.gomez@gmail.com");
+
+		InstructorDetail instructorDetail = new InstructorDetail("https://www.youtube.com", "Drawing");
 
 		// This will associate both the objects
 		instructor.setInstructorDetail(instructorDetail);
@@ -101,7 +145,8 @@ public class AdvancemappingApplication {
 		System.out.println("\n\nSaving the new instructor and other details ...");
 		System.out.println(instructor);
 		System.out.println(instructor.getCourses());
-		// This will also save the instructorDetails and courses object because of CascadeType.PERSIST
+		// This will also save the instructorDetails and courses object because of
+		// CascadeType.PERSIST
 		generalDAO.save(instructor);
 		System.out.println("\nsaved");
 
@@ -110,48 +155,48 @@ public class AdvancemappingApplication {
 	private void deleteInstructorDetailById(GeneralDAO generalDAO) {
 
 		int id = 3;
-		System.out.println("\n\nDeleting the instructor Detail with ID : "+id+" ...");
+		System.out.println("\n\nDeleting the instructor Detail with ID : " + id + " ...");
 		generalDAO.deleteInstructorDetailById(id);
 		System.out.println("\n\nDeleted successfully!");
-	
+
 	}
 
 	private void findInstructorDetailById(GeneralDAO generalDAO) {
-		
+
 		int id = 1;
-		System.out.println("\n\nFinding Instructor Detail by ID : "+id+" ...");
+		System.out.println("\n\nFinding Instructor Detail by ID : " + id + " ...");
 		InstructorDetail instructorDetail = generalDAO.findInstructorDetailById(id);
 		System.out.println(instructorDetail);
-		System.out.println(instructorDetail.getInstructor()+"\n");
+		System.out.println(instructorDetail.getInstructor() + "\n");
 
 	}
 
 	private void deleteInstructorById(GeneralDAO generalDAO) {
-		
+
 		int id = 2;
-		System.out.println("\n\nDeleting the instructor with ID : "+id+" ...");
+		System.out.println("\n\nDeleting the instructor with ID : " + id + " ...");
 		Instructor instructor = generalDAO.deleteInstructorById(id);
 		System.out.println("\n\nDeleted successfully! Deleted instructor is:");
 		System.out.println(instructor);
-		System.out.println(instructor.getInstructorDetail()+"\n");
+		System.out.println(instructor.getInstructorDetail() + "\n");
 
 	}
 
 	private void findInstructorById(GeneralDAO generalDAO) {
-		
+
 		int id = 1;
-		System.out.println("\n\nFinding Instructor by ID : "+id+" ...");
+		System.out.println("\n\nFinding Instructor by ID : " + id + " ...");
 		Instructor instructor = generalDAO.findInstructorById(id);
 		System.out.println(instructor);
-		System.out.println(instructor.getInstructorDetail()+"\n");
+		System.out.println(instructor.getInstructorDetail() + "\n");
 
 	}
 
 	private void createInstructor(GeneralDAO generalDAO) {
-		
-		Instructor instructor = new Instructor("Sam","Altman","sam.altman@gmail.com");
 
-		InstructorDetail instructorDetail = new InstructorDetail("openai.com","Making money");
+		Instructor instructor = new Instructor("Sam", "Altman", "sam.altman@gmail.com");
+
+		InstructorDetail instructorDetail = new InstructorDetail("openai.com", "Making money");
 
 		// This will associate both the objects
 		instructor.setInstructorDetail(instructorDetail);

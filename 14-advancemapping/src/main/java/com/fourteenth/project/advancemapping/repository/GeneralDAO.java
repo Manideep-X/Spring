@@ -16,10 +16,20 @@ public interface GeneralDAO {
 
     InstructorDetail findInstructorDetailById(int id);
 
+    Course findCourseById(int id);
+
     void deleteInstructorDetailById(int id);
 
     List<Course> findCoursesByInstructorId(int id);
 
     Instructor findInstructorByIdJoinFetch(int id);
+
+    void updateInstructor(Instructor instructor);
+
+    void updateCourse(Course course);
+
+    void deleteInstructorByIdBidir(int id);
+
+    void deleteCourseById(int id);
 
 }
