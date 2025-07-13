@@ -86,7 +86,10 @@ public class Student {
         if (courses == null) {
             courses = new ArrayList<>();
         }
-        courses.add(course);
+        if (!courses.contains(course)) {
+            courses.add(course);
+            course.addStudent(this); // This is madatory as this is the owning side (Student->Course)
+        }
     }
 
     @Override
