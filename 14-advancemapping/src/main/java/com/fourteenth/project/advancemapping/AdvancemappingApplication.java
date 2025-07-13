@@ -43,8 +43,11 @@ public class AdvancemappingApplication {
 			// deleteInstructorByIdBidir(generalDAO);
 			// deleteCourseById(generalDAO);
 			// createCourseWithReview(generalDAO);
-			findCourseWithReviewById(generalDAO);
-			deleteCourseWithReviewById(generalDAO);
+			// findCourseWithReviewById(generalDAO);
+			// deleteCourseWithReviewById(generalDAO);
+
+			/* FOR MANY-TO-MANY RELATIONSHIP */
+			
 		};
 
 	}
