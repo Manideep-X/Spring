@@ -11,6 +11,7 @@ import com.fourteenth.project.advancemapping.model.Course;
 import com.fourteenth.project.advancemapping.model.Instructor;
 import com.fourteenth.project.advancemapping.model.InstructorDetail;
 import com.fourteenth.project.advancemapping.model.Review;
+import com.fourteenth.project.advancemapping.model.Student;
 import com.fourteenth.project.advancemapping.repository.GeneralDAO;
 
 @SpringBootApplication
@@ -47,8 +48,22 @@ public class AdvancemappingApplication {
 			// deleteCourseWithReviewById(generalDAO);
 
 			/* FOR MANY-TO-MANY RELATIONSHIP */
-			
+			createCourseWithStudent(generalDAO);
 		};
+
+	}
+
+	private void createCourseWithStudent(GeneralDAO generalDAO) {
+		
+		Course course = new Course("Web Development with Java backend");
+		
+		course.addStudent(new Student("Mary", "Peterson", "mary.peterson@gmail.com"));
+		course.addStudent(new Student("Henry", "James", "henry.james@gmail.com"));
+
+		System.out.println("\n\nSaving the Course with the students...");
+		
+		generalDAO.save(course);
+		System.out.println("\n\nDone!");
 
 	}
 

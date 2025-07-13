@@ -82,7 +82,11 @@ public class Course {
         if (students == null) {
             students = new ArrayList<>();
         }
-        students.add(student);
+        if (!students.contains(student)) {
+            students.add(student);
+            student.addCourse(this); // This not neccessary as this is the inverse side (Student->Course)
+                                    // But for consistency including this is the best practice
+        }
     }
 
     public List<Student> getStudents() {
