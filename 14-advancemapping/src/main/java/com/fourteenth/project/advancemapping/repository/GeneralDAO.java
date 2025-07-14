@@ -5,6 +5,7 @@ import java.util.List;
 import com.fourteenth.project.advancemapping.model.Course;
 import com.fourteenth.project.advancemapping.model.Instructor;
 import com.fourteenth.project.advancemapping.model.InstructorDetail;
+import com.fourteenth.project.advancemapping.model.Student;
 
 public interface GeneralDAO {
 
@@ -35,5 +36,15 @@ public interface GeneralDAO {
     void save(Course course);
 
     Course findCourseWithReviewById(int id);
+
+    Course findCourseWithStudentById(int id);
+
+    Student findStudentWithCourseById(int id);
+
+    void updateStudent(Student student);
+
+    void deleteCourseNotStudentById(int id);
+
+    void deleteStudentById(int id);
 
 }

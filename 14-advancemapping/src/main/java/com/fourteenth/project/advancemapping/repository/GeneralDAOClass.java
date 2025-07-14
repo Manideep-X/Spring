@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fourteenth.project.advancemapping.model.Course;
 import com.fourteenth.project.advancemapping.model.Instructor;
 import com.fourteenth.project.advancemapping.model.InstructorDetail;
+import com.fourteenth.project.advancemapping.model.Student;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -50,7 +51,7 @@ public class GeneralDAOClass implements GeneralDAO {
     public InstructorDetail findInstructorDetailById(int id) {
         return entityManager.find(InstructorDetail.class, id);
     }
-    
+
     // FIND COURSE'S INFO BY COURSE ID
     @Override
     @Transactional(readOnly = true)
@@ -65,11 +66,13 @@ public class GeneralDAOClass implements GeneralDAO {
         InstructorDetail instructorDetail = entityManager.find(InstructorDetail.class, id);
 
         // instructorDetail.getInstructor().setInstructorDetail(null);
-        /* 
-            To only delete the instructorDetail rows without cascade deleting the instructor one, 
-                1. we need to add all cascade type except the REMOVE one.
-                2. And need to set instructorDetail.getInstructor().setInstructorDetail(null) before deleting the instructorDetail to break the bi-directional link.
-        */
+        /*
+         * To only delete the instructorDetail rows without cascade deleting the
+         * instructor one,
+         * 1. we need to add all cascade type except the REMOVE one.
+         * 2. And need to set instructorDetail.getInstructor().setInstructorDetail(null)
+         * before deleting the instructorDetail to break the bi-directional link.
+         */
 
         entityManager.remove(instructorDetail);
     }
@@ -78,24 +81,23 @@ public class GeneralDAOClass implements GeneralDAO {
     @Override
     @Transactional(readOnly = true)
     public List<Course> findCoursesByInstructorId(int id) {
-        
+
         TypedQuery<Course> query = entityManager.createQuery("from Course where instructor.id = :ins_id", Course.class);
         query.setParameter("ins_id", id);
 
         return query.getResultList();
     }
-    
+
     // FETCHING INSTRUCTOR AND COURSE IN ONE QUERY (MAINLY FOR LAZY FETCH TYPE)
     @Override
     @Transactional(readOnly = true)
     public Instructor findInstructorByIdJoinFetch(int id) {
-        
+
         TypedQuery<Instructor> query = entityManager.createQuery(
-            "from Instructor as i JOIN FETCH i.courses where i.id = :ins_id", Instructor.class
-        );
+                "from Instructor as i JOIN FETCH i.courses where i.id = :ins_id", Instructor.class);
         query.setParameter("ins_id", id);
-        
-        return query.getSingleResult();    
+
+        return query.getSingleResult();
     }
 
     // UPDATING INSTRUCTOR
@@ -116,7 +118,7 @@ public class GeneralDAOClass implements GeneralDAO {
     @Override
     @Transactional
     public void deleteInstructorByIdBidir(int id) {
-        
+
         Instructor instructor = entityManager.find(Instructor.class, id);
         List<Course> courses = instructor.getCourses();
 
@@ -127,7 +129,7 @@ public class GeneralDAOClass implements GeneralDAO {
         entityManager.remove(instructor);
 
     }
-    
+
     // DELETE COURSE BY COURSE'S ID
     @Override
     @Transactional
@@ -147,14 +149,65 @@ public class GeneralDAOClass implements GeneralDAO {
     @Override
     @Transactional(readOnly = true)
     public Course findCourseWithReviewById(int id) {
-        
+
         TypedQuery<Course> query = entityManager.createQuery(
-            "select c from Course as c JOIN FETCH c.reviews where c.id = :course_id", Course.class);
+                "select c from Course as c JOIN FETCH c.reviews where c.id = :course_id", Course.class);
 
         query.setParameter("course_id", id);
 
         return query.getSingleResult();
 
+    }
+
+    // FIND COURSE AND IT'S ENROLLED STUDENTS USING COURSE ID
+    @Override
+    @Transactional(readOnly = true)
+    public Course findCourseWithStudentById(int id) {
+
+        TypedQuery<Course> query = entityManager.createQuery(
+                "select c from Course as c JOIN FETCH c.students where c.id = :course_id", Course.class);
+        query.setParameter("course_id", id);
+        return query.getSingleResult();
+
+    }
+
+    // FIND STUDENT AND THEIR ENROLLED COURSES USING STUDENT ID
+    @Override
+    @Transactional(readOnly = true)
+    public Student findStudentWithCourseById(int id) {
+
+        TypedQuery<Student> query = entityManager.createQuery(
+                "select s from Student as s JOIN FETCH s.courses where s.id = :student_id", Student.class);
+        query.setParameter("student_id", id);
+        return query.getSingleResult();
+
+    }
+
+    // UPDATES STUDENT AFTER MODIFICATION
+    @Override
+    @Transactional
+    public void updateStudent(Student student) {
+        entityManager.merge(student);
+    }
+
+    // DELETES A COURSE BY BREAKING ALL THE ASSOCIATIONS TO STUDENT FIRST
+    @Override
+    @Transactional
+    public void deleteCourseNotStudentById(int id) {
+        Course course = entityManager.find(Course.class, id);
+        if (course != null) {
+            for (Student student : course.getStudents()) {
+                student.getCourses().remove(course);
+            }
+            entityManager.remove(course);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(int id) {
+        Student student = entityManager.find(Student.class, id);
+        entityManager.remove(student);
     }
 
 }
