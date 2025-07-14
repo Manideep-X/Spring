@@ -48,9 +48,58 @@ public class AdvancemappingApplication {
 			// deleteCourseWithReviewById(generalDAO);
 
 			/* FOR MANY-TO-MANY RELATIONSHIP */
-			createCourseWithStudent(generalDAO);
+			// createCourseWithStudent(generalDAO);
+			// findCourseWithStudentsById(generalDAO);
+			// findStudentWithCoursesById(generalDAO);
+			// addCoursesForStudent(generalDAO);
+			// deleteCourseNotStudentById(generalDAO);
+			// deleteStudentById(generalDAO);
 		};
 
+	}
+
+	private void deleteStudentById(GeneralDAO generalDAO) {
+		int id = 2;
+		generalDAO.deleteStudentById(id);
+		System.out.println("\n\nDeleted!");
+	}
+
+	private void deleteCourseNotStudentById(GeneralDAO generalDAO) {
+		int id = 19;
+		generalDAO.deleteCourseNotStudentById(id);
+		System.out.println("\n\nDeleted!");
+	}
+
+	private void addCoursesForStudent(GeneralDAO generalDAO) {
+		int studentId = 1, studentId2 = 2;
+		Student student1 = generalDAO.findStudentWithCourseById(studentId);
+		Student student2 = generalDAO.findStudentWithCourseById(studentId2);
+		student1.addCourse(new Course("Complete Guide of Java development"));
+		student1.addCourse(new Course("Java development from Scratch"));
+		student2.addCourse(new Course("Rest API Projects with Spring Boot"));
+		generalDAO.updateStudent(student1);
+		generalDAO.updateStudent(student2);
+		System.out.println("\n\n student updated!");
+	}
+
+	private void findCourseWithStudentsById(GeneralDAO generalDAO) {
+		int id = 16;
+		System.out.println("\n\nCourse with ID:"+id+" and it's details are...");
+		Course course = generalDAO.findCourseWithStudentById(id);
+		System.out.println("\n\n"+course);
+		for (Student student : course.getStudents()) {
+			System.out.println(student);
+		}
+	}
+	
+	private void findStudentWithCoursesById(GeneralDAO generalDAO) {
+		int id = 1;
+		System.out.println("\n\nStudent with ID:"+id+" and it's details are...");
+		Student student = generalDAO.findStudentWithCourseById(id);
+		System.out.println("\n\n"+student);
+		for (Course course : student.getCourses()) {
+			System.out.println(course);
+		}
 	}
 
 	private void createCourseWithStudent(GeneralDAO generalDAO) {
@@ -96,7 +145,7 @@ public class AdvancemappingApplication {
 	}
 
 	private void deleteCourseById(GeneralDAO generalDAO) {
-		int id = 10;
+		int id = 18;
 		System.out.println("\n\nDeleting the Course with ID : " + id + " ...");
 		generalDAO.deleteCourseById(id);
 		System.out.println("\n\nDeleted successfully!");
