@@ -1285,6 +1285,23 @@
             1. Each entry in one entity is associated with more than one entry in another entity.
             2. There are 2 sides for a relationship: **owning** and **inverse/target**. 
                 - **mappedBy should be in the inverse side** which in this case is Department entity and `@JoinColumn` **should be in the owning side** which defines the foreign key is Employee entity.
+                - **mappedBy** should be added in case of **bi-directional mapping**.
+            3. ⚠️ In **one-to-many bidirectional mapping**, both side of the relationship should be manually synced as **JPA will NOT do that automatically**.
+                - This method needed to be added in the parent class or the inverse entity of the relation:
+                    
+                    ```java
+                    public void add(Course tempCourse) {
+                        if (courses == null) {
+                            courses = new ArrayList<>(); // Initialised the course list if it doesn't exist
+                        }
+                        
+                        courses.add(tempCourse); // add the course to the instructor's list of course.
+                        
+                        tempCourse.setInstructor(this); // Update the child side of the relationship. 
+                        // By setting the current instructor object as the instructor of this course.
+                    }
+                    ```
+                    
             - **Example:** ⤵️
                 
                 ```java
@@ -1365,7 +1382,43 @@
                 courseRepository.save(course); // Cascade in Course triggers here
                 ```
                 
-        5. 
+        5. Types of cascade:
+            
+            
+            | CascadeType | What it Does |
+            | --- | --- |
+            | `PERSIST` | When you save the parent, the related child entities are also saved automatically. |
+            | `MERGE` | When you update (merge) the parent, the child entities are also updated. |
+            | `REMOVE` | When you delete the parent, the child entities are also deleted. ⚠️ Use carefully! |
+            | `REFRESH` | When you refresh the parent from the DB, the child is also refreshed. |
+            | `DETACH` | When you detach the parent from the persistence context, the child is also detached. |
+            | `ALL` | Shortcut for applying all of the above: `PERSIST`, `MERGE`, `REMOVE`, `REFRESH`, `DETACH`. |
+            | `NONE` *(Not real constant)* | Just means “no cascade”; child must be handled manually. |
+        6. **To delete rows** from one table **without cascade deleting** from the other one in one-to-one bi-directional mapping:
+            1. Need to add all cascade type except the REMOVE one. Eg: `@OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)`
+            2. And need to set `instructorDetail.getInstructor().setInstructorDetail(null)` before deleting the instructorDetail to break the bi-directional link.
+        7. **⚠️ Lazy Loading is prefered than Eager Loading:**
+            1. Default fetch types of different mapping:
+                - `@OneToOne`: FetchType.EAGER
+                - `@OneToMany`: FetchType.LAZY
+                - `@ManyToOne`: FetchType.EAGER
+                - `@ManyToMany`: FetchType.LAZY
+            2. **Eg:**
+                
+                ```
+                @OneToMany(fetch = FetchType.LAZY, mappedBy = "instructor", 
+                                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+                    private List<Course> courses;
+                ```
+                
+        8. `JOIN FETCH` is use in case we want **lazy fetch type** as well as want to **fetch instructor and courses in a single query**:
+            1. **Eg:**
+                
+                ```java
+                TypedQuery<Instructor> query = entityManager.createQuery(
+                            "from Instructor as i JOIN FETCH i.courses where i.id = :ins_id", Instructor.class);
+                ```
+                
     
     ---
     
