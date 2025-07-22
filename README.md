@@ -1116,7 +1116,27 @@
             2. The token needs to be **manually included** with any request that changes data.
             3. Malicious site can’t know the token as it is **stored in the server-side session**.
         7. CSRF protection is **disable in case of REST API** as no session stored on the server (**stateless**).
-        8. **BCrypt in** Spring Boot:
+        8. **Security Filter Chain:**
+            
+            ```java
+            @Configuration
+            @EnableWebSecurity // Disable auto-configured default security, enables spring security customization
+            public class SecurityConfig {
+            	@Bean
+            	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            		
+            		return http
+            			.csrf(customizer -> customizer.disable()) // To disable CSRF
+            			.authorizeHttpRequests(request -> request.anyRequest().authenticated()) // To authenticate any request
+            			// .formLogin(Customizer.withDefaults()) // To get login form
+            			.httpBasic(Customizer.withDefault()) // To login from postman
+            			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Makes the session stateless, means this will create a new session ID in each request. (Will not work in browser)
+            			.build();
+            	}
+            }
+            ```
+            
+        9. **BCrypt in** Spring Boot:
             1. It adds **salt** to the password. **Salt** is a random value added to each password before hashing.
             2. Then is repeatedly hashes the **combination(password+salt)**. The number of hashes are 2^10=**1024 times(default)**.
     
