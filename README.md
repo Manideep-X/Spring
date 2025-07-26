@@ -1442,6 +1442,26 @@
     
     ---
     
+    - **Spring AOP (Aspect Oriented Programming)** [(Official doc)](https://docs.spring.io/spring-framework/reference/core/aop/introduction-defn.html)
+        1. An **aspect** is a modular unit that encapsulates a **cross-cutting concern**.
+        2. **Cross-cutting concerns** are functionalities that affects multiple parts of an application, such as logging or security.
+        3. **Spring AOP advantages and disadvantages:**
+            
+            
+            | Advantages | Disadvantages |
+            | --- | --- |
+            | Simpler to use than AspectJ. | only supports method level join points. |
+            | Use **proxy pattern**, it is use to inject cross-cutting concern into the application core business logic without modifying the code. | Can only apply to bean created by Spring app context. |
+            | Can migrate to AspectJ when `@Aspect` annotation is used. | Minor performance cost. |
+        4. **AspectJ advantages and disadvantages:**
+            
+            
+            | Advantages | Disadvantages |
+            | --- | --- |
+            | Supports all join points. | **Compile-time weaving** requires extra compilation steps. |
+            | Works with any POJOs, not just beans from app context. | **Compile-time weaving** is a process where AspectJ takes both app’s code and aspect code, and creates a new “woven” class. |
+            | Faster performance than Spring AOP, and have complete AOP support. | AspectJ’s pointcut syntax can become complex. |
+        5. 
 </aside>
 
 <aside>
