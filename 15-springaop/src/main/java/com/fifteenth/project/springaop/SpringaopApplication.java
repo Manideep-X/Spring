@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.fifteenth.project.springaop.dao.AccountDAO;
 import com.fifteenth.project.springaop.dao.MembershipDAO;
+import com.fifteenth.project.springaop.model.Account;
 
 @SpringBootApplication
 public class SpringaopApplication {
@@ -35,6 +36,15 @@ public class SpringaopApplication {
 		// calling the add Membership Profile method from the MembershipDAO
 		membershipDAO.addProfile();
 
+		// calling to check Membership activation status
+		membershipDAO.isActive();
+
+		// calling MembershipDAO's getters and setters
+		membershipDAO.setMemberName("Toddler");
+		membershipDAO.getMemberName();
+		membershipDAO.setMemberId(12);
+		membershipDAO.getMemberId();
+
 	}
 
 	private void addAccBeforeAdvice(AccountDAO accountDAO) {
@@ -42,8 +52,14 @@ public class SpringaopApplication {
 		// calling the add acc method from the DAO
 		accountDAO.addAccount();
 
-		// Calling the method one more time to check if the aspect is running first again
-		accountDAO.addAccount();
+		// Calling the method with object as a parameter to check if the aspect is running first
+		accountDAO.addAccount(new Account());
+
+		// Calling the method & passing Account obj and a string as parameter
+		accountDAO.addAccount(new Account(), "Admin");
+
+		// Calling to check account status
+		accountDAO.status("");
 
 	}
 

@@ -6,4 +6,12 @@ public interface MembershipDAO {
 
     int addProfile();
 
+    boolean isActive();
+
+    // getters and setters
+    public String getMemberName();
+    public void setMemberName(String memberName);
+    public int getMemberId();
+    public void setMemberId(int memberId);
+
 }
