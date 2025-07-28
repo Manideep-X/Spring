@@ -1,7 +1,9 @@
 package com.fifteenth.project.springaop.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +27,21 @@ public class LoggingAspect {
     // This method will only execute before any method with "add" prefix of any return type & of any class with no parameter
     // Access specifier is optional, so removed.
     @Before("execution(* add*())")
-    public void beforeAddAccAdvice() {
+    public void beforeAddAccAdvice(JoinPoint joinPoint) {
 
         System.out.println("----- { 1 } @Before method inside @Aspect class [NO PARAM] -----");
+
+        // This will get the method signature from JoinPoint
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+    
+        // This will display the method signature
+        System.out.println("[Method] "+methodSignature);
+
+        // Display method arguments
+        for (Object args : joinPoint.getArgs()) {
+            System.out.println("\t\t -> "+args);
+        }
+        System.out.println("");
 
     }
 
