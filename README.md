@@ -1461,7 +1461,80 @@
             | Supports all join points. | **Compile-time weaving** requires extra compilation steps. |
             | Works with any POJOs, not just beans from app context. | **Compile-time weaving** is a process where AspectJ takes both app’s code and aspect code, and creates a new “woven” class. |
             | Faster performance than Spring AOP, and have complete AOP support. | AspectJ’s pointcut syntax can become complex. |
-        5. 
+        5. `@Before` annotation is used on method inside `@Aspect` class to execute it **before the mentioned method**.
+            - **Example:** ⤵️
+                
+                ```java
+                @Aspect
+                @Component
+                public class LoggingAspect {
+                    // This method will get executed before addAccount() method
+                    @Before("execution(public void addAccount())")
+                    public void beforeAddAccAdvice() {
+                        System.out.println("----- @Before method inside @Aspect class -----");
+                    }
+                }
+                ```
+                
+        6. **Parameter pattern** for wildcards of **Pointcut expressions**:
+            
+            
+            | Pattern | Description |
+            | --- | --- |
+            | `()`  | matches a method with no argument. |
+            | `(*)`  | matches a method with one argument of any type. |
+            | `(..)` | matches a method with zero or more argument of any type. |
+            - **Example:** ⤵️
+                
+                ```java
+                // No argument method with any return type of the method
+                @Before("execution(* addAccount())")
+                
+                // Parameter is an object of type AccountDAO with any return type of the method
+                @Before("execution(* addAccount(com.fifteenth.project.springaop.dao.AccountDAO))")
+                
+                // Zero or more parameter of any type, with any return type of any method of any class that belongs to the mentioned package
+                @Before("execution(* com.fifteenth.project.springaop.dao.*.*(..))")
+                ```
+                
+        7. **Pointcut declaration** for advice is use for code reuse:
+            - `@Pointcut("execution(* com.fifteenth.project.springaop.dao.*.*(..))")` : Pointcut expression for all methods from "dao" package.
+        8. `@AfterReturning` annotation is used on method inside `@Aspect` class to execute it **after completing** the execution of the mentioned method.
+            - **Example:** ⤵️
+                
+                ```java
+                // @AfterReturning is used to add aspect after completing the execution of the mentioned method.
+                
+                // Add advice for @AfterReturning on the findAccounts method in AccountDAO
+                @AfterReturning( pointcut = "execution(* com.fifteenth.project.springaop.dao.AccountDAO.findAccounts(..))", 
+                					       returning = "theList")
+                  public void afterReturningFindAccAdvice(JoinPoint joinPoint, List<Account> theList) {
+                
+                      System.out.println("----- { 1 } @AfterReturning method inside @Aspect class [ANY PARAM, findAccounts] -----");
+                
+                      // This will get the method signature from the JoinPoint
+                      String method = joinPoint.getSignature().toShortString();
+                			System.out.println("-----\t\tMethod: "+method);
+                      System.out.println("-----\t\tResult: "+theList+"\n");
+                
+                      // Post-processing: modifying the data before sending it to the calling program
+                      // Convert all name and level to uppercase
+                      setAllToUpper(theList);
+                  }
+                  private void setAllToUpper(List<Account> theList) {     
+                      for (Account account : theList) {
+                          account.setName(account.getName().toUpperCase());
+                          account.setLevel(account.getLevel().toUpperCase());
+                      }
+                  }
+                ```
+                
+        9. `@AfterThrowing` annotation is used on method inside `@Aspect` class similar to `@Before` & `@AfterReturning` . But, mentioned method will only get executed when it throws an **exception**.
+        10. Order of execution in case of `@AfterThrowing` advice:
+            - **Sequence Diagram:** ⤵️
+                
+                ![image.png](Java%20Backend%20Guide%201b7819eb4d8480329e0acf25a9efb277/image%205.png)
+                
 </aside>
 
 <aside>
