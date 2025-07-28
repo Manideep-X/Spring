@@ -1,5 +1,8 @@
 package com.fifteenth.project.springaop.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.fifteenth.project.springaop.model.Account;
@@ -40,6 +43,21 @@ public class AccountDAOImpl implements AccountDAO{
         upStatus = "Active";
         System.out.println(getClass()+" doing my DB work with a/c status as ["+upStatus+"]\n");
         return upStatus;
+
+    }
+
+    @Override
+    public List<Account> findAccounts() {
+        
+        List<Account> list = new ArrayList<>();
+
+        // Add some dummy data to the list and return it.
+        list.add(new Account());
+        list.add(new Account("Mathew","Employee"));
+        list.add(new Account("David","Manager"));
+        list.add(new Account("Susan","Admin"));
+
+        return list;
 
     }
 

@@ -22,10 +22,22 @@ public class SpringaopApplication {
 
 			System.out.println("Application is now started running!\n");
 
-			addAccBeforeAdvice(accountDAO);
-			addAccBeforeAdvice(membershipDAO);
+			// addAccBeforeAdvice(accountDAO);
+			// addAccBeforeAdvice(membershipDAO);
+
+			getAccAfterReturningAdvice(accountDAO);
 
 		};
+	}
+
+	private void getAccAfterReturningAdvice(AccountDAO accountDAO) {
+		
+		// Diplaying the accounts
+		for (Account account : accountDAO.findAccounts()) {
+			System.out.println("\t\t"+account);
+		}
+		System.out.println("");
+
 	}
 
 	private void addAccBeforeAdvice(MembershipDAO membershipDAO) {
