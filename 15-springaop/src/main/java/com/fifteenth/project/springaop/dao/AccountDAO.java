@@ -1,5 +1,7 @@
 package com.fifteenth.project.springaop.dao;
 
+import java.util.List;
+
 import com.fifteenth.project.springaop.model.Account;
 
 public interface AccountDAO {
@@ -11,5 +13,7 @@ public interface AccountDAO {
     void addAccount(Account account, String theLevel);
 
     String status(String upStatus);
+
+    List<Account> findAccounts();
 
 }
