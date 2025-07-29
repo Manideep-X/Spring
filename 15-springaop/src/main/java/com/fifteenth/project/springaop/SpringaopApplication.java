@@ -1,5 +1,7 @@
 package com.fifteenth.project.springaop;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,9 +27,38 @@ public class SpringaopApplication {
 			// addAccBeforeAdvice(accountDAO);
 			// addAccBeforeAdvice(membershipDAO);
 
-			getAccAfterReturningAdvice(accountDAO);
+			// getAccAfterReturningAdvice(accountDAO);
+			getAccAfterThrowingAndAfterAdvice(accountDAO);
 
 		};
+	}
+
+	private void getAccAfterThrowingAndAfterAdvice(AccountDAO accountDAO) {
+		
+		// create a list of Account obj
+		List<Account> accounts = null;
+
+		// trigger-variable to generate exception
+		boolean isException = true;
+
+		// try-catch block to simulate exception handling
+		try {
+			accounts = accountDAO.findAccounts(isException);
+		} catch (Exception e) {
+			System.out.println("\n\t\tException displaying from commandLineRunner: "+e.getMessage());
+		}
+
+		// Diplaying the accounts
+		if (accounts != null) {
+			for (Account account : accounts) {
+				System.out.println("\t\t"+account);
+			}
+			System.out.println("");
+		}
+		else {
+			System.out.println("\t\tAccount: ["+accounts+"]\n");
+		}
+
 	}
 
 	private void getAccAfterReturningAdvice(AccountDAO accountDAO) {

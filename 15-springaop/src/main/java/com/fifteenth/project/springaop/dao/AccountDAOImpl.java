@@ -49,6 +49,17 @@ public class AccountDAOImpl implements AccountDAO{
     @Override
     public List<Account> findAccounts() {
         
+        return findAccounts(false);
+
+    }
+
+    @Override
+    public List<Account> findAccounts(boolean isException) throws RuntimeException {
+
+        if (isException) {
+            throw new RuntimeException("Exception occured while retriving Accounts!");
+        }
+        
         List<Account> list = new ArrayList<>();
 
         // Add some dummy data to the list and return it.
@@ -58,7 +69,7 @@ public class AccountDAOImpl implements AccountDAO{
         list.add(new Account("Susan","Admin"));
 
         return list;
-
+        
     }
 
 }
