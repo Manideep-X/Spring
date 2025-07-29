@@ -3,7 +3,9 @@ package com.fifteenth.project.springaop.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -76,14 +78,39 @@ public class LoggingAspect {
         setAllToUpper(theList);
 
     }
-    
-
     private void setAllToUpper(List<Account> theList) {
-        
         for (Account account : theList) {
             account.setName(account.getName().toUpperCase());
             account.setLevel(account.getLevel().toUpperCase());
         }
+    }
+
+    /*
+     * @AfterThrowing annotation adds aspect after an exception is throwned from the mentioned method.
+     */
+
+    @AfterThrowing(
+        pointcut = "execution(* com.fifteenth.project.springaop.dao.AccountDAO.findAccounts(..))",
+        throwing = "exception"
+    )
+    public void afterThrowingFindAccAdvice(JoinPoint joinPoint, Throwable exception) {
+
+        System.out.println("-+-+- { 1 } @AfterThrowing method inside @Aspect class [ANY PARAM, findAccounts] -+-+-");
+
+        // Displaying the method name and the exception that occured
+        System.out.println("-+-+-\t\tMethod: "+joinPoint.getSignature().toShortString());
+        System.out.println("-+-+-\t\tException: "+exception);
+
+    }
+
+    /*
+     * @After advice annotated method will get executed after the completion of the execution of the mentioned regardless of whether it throws an exception or not.
+     */
+
+    @After("execution(* com.fifteenth.project.springaop.dao.AccountDAO.findAccounts(..))")
+    public void afterFindAccAdvice(JoinPoint joinPoint) {
+
+        System.out.println("----- { 1 } @After method will RUN ANYWAY [ANY PARAM, findAccounts] -----");
 
     }
 

@@ -16,4 +16,6 @@ public interface AccountDAO {
 
     List<Account> findAccounts();
 
+    List<Account> findAccounts(boolean isException) throws RuntimeException;
+
 }
