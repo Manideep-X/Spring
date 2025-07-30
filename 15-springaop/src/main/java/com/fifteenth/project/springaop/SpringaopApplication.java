@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import com.fifteenth.project.springaop.dao.AccountDAO;
 import com.fifteenth.project.springaop.dao.MembershipDAO;
 import com.fifteenth.project.springaop.model.Account;
+import com.fifteenth.project.springaop.service.TrafficMonitorService;
 
 @SpringBootApplication
 public class SpringaopApplication {
@@ -19,7 +20,9 @@ public class SpringaopApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(AccountDAO accountDAO, MembershipDAO membershipDAO) {
+	CommandLineRunner commandLineRunner(
+		AccountDAO accountDAO, MembershipDAO membershipDAO, TrafficMonitorService trafficMonitorService
+		) {
 		return _ -> {
 
 			System.out.println("Application is now started running!\n");
@@ -28,9 +31,41 @@ public class SpringaopApplication {
 			// addAccBeforeAdvice(membershipDAO);
 
 			// getAccAfterReturningAdvice(accountDAO);
-			getAccAfterThrowingAndAfterAdvice(accountDAO);
+			// getAccAfterThrowingAndAfterAdvice(accountDAO);
+
+			// getTrafficStatusAroundAdvice(trafficMonitorService);
+			getTrafficAroundAdviceHandleException(trafficMonitorService);
 
 		};
+	}
+
+	private void getTrafficAroundAdviceHandleException(TrafficMonitorService trafficMonitorService) {
+		
+		System.out.println("\n.... Fetching traffic status from commandLineRunner ....\n");
+	
+		// trigger-variable to generate exception
+		boolean isException = true;
+
+		String status = "";
+		try {
+			// store the traffic status
+			status = trafficMonitorService.getTrafficStatus(isException);
+		} catch (Exception e) {
+			// or else store the exception message
+			status = e.getMessage();
+		}
+		
+		System.out.println("\nStatus: "+status+"\n");
+
+	}
+
+	private void getTrafficStatusAroundAdvice(TrafficMonitorService trafficMonitorService) {
+		
+		System.out.println("\n.... Fetching traffic status from commandLineRunner ....\n");
+
+		// Display the traffic status
+		System.out.println("\nStatus: "+trafficMonitorService.getTrafficStatus()+"\n");
+
 	}
 
 	private void getAccAfterThrowingAndAfterAdvice(AccountDAO accountDAO) {

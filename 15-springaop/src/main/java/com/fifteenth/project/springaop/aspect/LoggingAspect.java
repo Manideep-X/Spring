@@ -3,9 +3,11 @@ package com.fifteenth.project.springaop.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -111,6 +113,44 @@ public class LoggingAspect {
     public void afterFindAccAdvice(JoinPoint joinPoint) {
 
         System.out.println("----- { 1 } @After method will RUN ANYWAY [ANY PARAM, findAccounts] -----");
+
+    }
+
+    /*
+     * @Around advice annotation is the combination of all i.e., @Before, @AfterReturning, @AfterThrowing and @After.
+     */
+
+    @Around("execution(* com.fifteenth.project.springaop.service.TrafficMonitor*.getTrafficStatus(..))")
+    public Object aroundGetStatusAdvice(
+        ProceedingJoinPoint proceedingJoinPoint
+    ) throws Throwable {
+
+        System.out.println("----- @Around method has STARTED the execution -----");
+
+        // store the current time or starting time of execution
+        long startTime = System.currentTimeMillis();
+
+        Object result = null;
+        // handle the exception in Arround advice
+        try {
+            // Start the execution
+            result = proceedingJoinPoint.proceed();
+        } catch (Exception e) {
+            System.out.println("-+-+- Exception occured and is handled by AROUND ADVICE -+-+-");
+            System.out.println("-+-+-\tException Message: "+e.getMessage());
+
+            // Rethrowing the exception, so the calling method should handle it.
+            throw e;
+        }
+
+        // Calculation of total time taken for execution
+        long duration = System.currentTimeMillis() - startTime;
+
+        System.out.println("----- @Around method has ENDED the execution -----");
+        System.out.println("\n-----\tDuration of execution: "+duration);
+        System.out.println("-----\tResult: "+result+"\n");
+
+        return result;
 
     }
 
