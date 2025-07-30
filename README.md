@@ -724,6 +724,57 @@
                 
             3. `@Configuration` : Able to register beans with `@Bean` annotation or import other `@Configuration` classes.
         2. `SpringApplication.run()` actually starts the spring boot application (create application context, register all beans, starts the embedded tomcat server, etc)
+        3. *⚠️* **Some key usecases snippet code: ❗Cation: Not recommended for production**
+            
+            ```yaml
+            server.port=8082
+            
+            # --- DATABASE CONNECTION ---
+            
+            spring.datasource.url=jdbc:mysql://localhost:3306/employee_tracker
+            spring.datasource.username=learningspring
+            spring.datasource.password=learningspring
+            
+            # --- SPRING BOOT ---
+            
+            # turn the spring boot banner off
+            spring.main.banner-mode=off
+            
+            # Reduce logging level to warning and error
+            logging.level.root=warn
+            
+            # --- SPRING AOP ---
+            
+            # Enable debug logging for AOP
+            logging.level.org.springframework.aop=DEBUG
+            
+            # --- SPRING DATA REST ---
+            
+            # Setting a custom base-path for all the endpoints in this application
+            spring.data.rest.base-path=/api
+            
+            # --- SPRING DATA JPA ---
+            
+            # Automatically update the database schema to match the entities (Java classes annotated with @Entity)
+            spring.jpa.hibernate.ddl-auto=update
+            
+            # This will show all the SQL queries generated and executed by Hibernate (just SQL structure with "?")
+            logging.level.org.hibernate.SQL=trace
+            
+            # This will show the actual parameter value used in "?"
+            logging.level.org.hibernate.orm.jdbc.bind=trace
+            
+            # --- SWAGGER UI ---
+            
+            # Custom path for Swagger UI. 
+            # This will simply redirect to the default path: http://localhost:8082/swagger-ui/index.html
+            springdoc.swagger-ui.path=/employee.html
+            
+            # Custom path for API documentation (for Swagger UI)
+            # Default path is: http://localhost:8082/v3/api-docs
+            springdoc.api-docs.path=/documentation
+            ```
+            
     
     ---
     
@@ -1498,7 +1549,7 @@
                 ```
                 
         7. **Pointcut declaration** for advice is use for code reuse:
-            - `@Pointcut("execution(* com.fifteenth.project.springaop.dao.*.*(..))")` : Pointcut expression for all methods from "dao" package.
+            - `@Pointcut("execution(* com.fifteenth.project.springaop.dao.*.*(..))")`: Pointcut expression for all methods from "dao" package.
         8. `@AfterReturning` annotation is used on method inside `@Aspect` class to execute it **after completing** the execution of the mentioned method.
             - **Example:** ⤵️
                 
@@ -1529,12 +1580,18 @@
                   }
                 ```
                 
-        9. `@AfterThrowing` annotation is used on method inside `@Aspect` class similar to `@Before` & `@AfterReturning` . But, mentioned method will only get executed when it throws an **exception**.
-        10. Order of execution in case of `@AfterThrowing` advice:
-            - **Sequence Diagram:** ⤵️
+        9. `@AfterThrowing` advice annotation is used on method inside `@Aspect` class similar to `@Before` & `@AfterReturning`. But, annotated method will only get executed when **the mentioned method throws an exception**.
+            - **Sequence Diagram for `@AfterThrowing`:** ⤵️
                 
                 ![image.png](Java%20Backend%20Guide%201b7819eb4d8480329e0acf25a9efb277/image%205.png)
                 
+        10. `@After` advice annotation (**aka after finally advice**) is used on method inside `@Aspect` class similar to `@AfterReturning`. But, annotated method will get executed after the completion of the execution of the mentioned regardless of whether it throws an exception or not.
+            - If there is no exception and `@AfterReturning` advice is also there, then **`@AfterReturning` will run first, after that `@After` advice will run**.
+            - **Sequence Diagram for `@After`:** ⤵️
+                
+                ![image.png](Java%20Backend%20Guide%201b7819eb4d8480329e0acf25a9efb277/image%206.png)
+                
+        11. `@Around` advice annotation is the combination of all i.e., `@Before`, `@AfterReturning`, `@AfterThrowing` and `@After`.
 </aside>
 
 <aside>
